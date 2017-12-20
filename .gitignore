@@ -1,5 +1,8 @@
-*.xml
+/*.xml
 target
+
+*.iml
+.idea
 
 
 # Compiled class file
