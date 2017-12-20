@@ -20,9 +20,9 @@ public enum PagesAndRoles {
      * If a page is not listed here (or listed but with no roles), then it is accesible by anyone
      * If a page is listed here with roles, then the user must have at least one of these roles to acess the page
      */
-    login("/faces/login.xhtml" ),
-    createUser("/faces/create-user.xhtml"),
-    test("/faces/test.xhtml", Roles.USER);
+    login("/login.xhtml" ),
+    createUser("/create-user.xhtml"),
+    test("/test.xhtml", Roles.USER);
     
     
     public String path;
