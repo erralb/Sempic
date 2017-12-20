@@ -28,7 +28,7 @@
 				<h:link value="Register" outcome="/create-user" rendered="#{not authManager.userConnected()}"  />
 				
 				<h:form>
-					<h:commandButton value="/logout" action="#{authManager.logout()}" rendered="#{authManager.userConnected()}"/>
+					<h:commandButton value="logout" action="#{authManager.logout()}" rendered="#{authManager.userConnected()}"/>
 				</h:form>
 				
             </div>
