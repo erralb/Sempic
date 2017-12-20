@@ -22,11 +22,13 @@
             <div id="left">
                 <ui:insert name="left"></ui:insert>
 				
-				<h:link value="Login" outcome="login" rendered="#{not authManager.userConnected()}" /><br/>
-				<h:link value="Register" outcome="create-user" rendered="#{not authManager.userConnected()}"  />
+				<h:link value="Home" outcome="/index" /><br/>
+				<h:link value="Users" outcome="/users/List.xhtml" /><br/><br/>
+				<h:link value="Login" outcome="/login" rendered="#{not authManager.userConnected()}" /><br/>
+				<h:link value="Register" outcome="/create-user" rendered="#{not authManager.userConnected()}"  />
 				
 				<h:form>
-					<h:commandButton value="logout" action="#{authManager.logout()}" rendered="#{authManager.userConnected()}"/>
+					<h:commandButton value="/logout" action="#{authManager.logout()}" rendered="#{authManager.userConnected()}"/>
 				</h:form>
 				
             </div>

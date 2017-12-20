@@ -24,7 +24,6 @@ public enum PagesAndRoles {
     createUser("/create-user.xhtml"),
     test("/test.xhtml", Roles.USER);
     
-    
     public String path;
     public Roles[] allowedRoles;
 

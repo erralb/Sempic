@@ -80,7 +80,7 @@ public class AuthManager implements Serializable {
         if (requestedPage != null) {
             return requestedPage + "?faces-redirect=true";
         }
-        return "";
+        return "/index.xhtml?faces-redirect=true";
     }
     
     public boolean userConnected() {
