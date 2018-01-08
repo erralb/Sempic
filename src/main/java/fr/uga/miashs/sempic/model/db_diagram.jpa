@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" pkg="fr.uga.miashs.sempic.model" v="4.4" rws="_151542404679923" Pws="_151542404679923" cws="_151542404679923" sm="false" xs="false" id="_15154240461041" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:entity compositePrimaryKeyClass="SempicUserPK" abs="false" class="SempicUser" v="true" gen="false" xre="false" m="false" rootElement="_15154240461041" id="_15154240461152">
+        <jpa:attributes>
+            <jpa:basic optional="true" attribute-type="String" v="true" xvt="" name="email" id="_15154240461217">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="EMAIL" unique="false" nullable="true" insertable="true" updatable="true" table="SEMPICUSER" length="255"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" name="firstname" id="_15154240461218">
+                <jpa:column name="FIRSTNAME" unique="false" nullable="true" insertable="true" updatable="true" table="SEMPICUSER" length="255"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" name="lastname" id="_15154240461219">
+                <jpa:column name="LASTNAME" unique="false" nullable="true" insertable="true" updatable="true" table="SEMPICUSER" length="255"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" name="passwordhash" id="_151542404612110">
+                <jpa:column name="PASSWORDHASH" unique="false" nullable="true" insertable="true" updatable="true" table="SEMPICUSER" length="255"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" name="salt" id="_151542404612111">
+                <jpa:column name="SALT" unique="false" nullable="true" insertable="true" updatable="true" table="SEMPICUSER" length="255"/>
+            </jpa:basic>
+            <jpa:one-to-many collection-type="java.util.List" connected-entity-id="_15154240461165" connected-attribute-id="_151542432178631" v="true" name="albums" id="_151542432178932"/>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_15154240461216">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="ID" unique="false" nullable="false" insertable="true" updatable="true" table="SEMPICUSER"/>
+                <jpa:generated-value/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="SEMPICUSER"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="PicturePK" abs="false" class="Picture" v="true" jbn="false" xre="false" m="false" rootElement="_15154240461041" id="_15154240461163">
+        <jpa:attributes>
+            <jpa:basic optional="true" attribute-type="java.util.Date" v="true" xvt="" name="added" id="_151542404612113">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:temporal>DATE</jpa:temporal>
+                <jpa:column name="ADDED" unique="false" nullable="true" insertable="true" updatable="true" table="PICTURE"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" xvt="" name="name" id="_151542404612114">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="NAME" unique="false" nullable="true" insertable="true" updatable="true" table="PICTURE" length="255"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="java.math.BigInteger" v="true" xvt="" name="albumId" id="_151542404612115">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="ALBUM_ID" unique="false" nullable="true" insertable="true" updatable="true" table="PICTURE"/>
+            </jpa:basic>
+            <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_15154240461165" connected-attribute-id="_151542404612222" v="true" xvt="" name="albumCollection" id="_151542404612116">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:many-to-many>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_151542404612112">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="ID" unique="false" nullable="false" insertable="true" updatable="true" table="PICTURE"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="PICTURE"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyClass="SequencePK" abs="false" class="Sequence" v="true" gen="false" xre="false" m="false" rootElement="_15154240461041" id="_15154240461164">
+        <jpa:attributes>
+            <jpa:basic optional="true" attribute-type="Long" v="true" name="seqCount" id="_151542404612218">
+                <jpa:column name="SEQ_COUNT" unique="false" nullable="true" insertable="true" updatable="true" table="SEQUENCE"/>
+            </jpa:basic>
+            <jpa:id attribute-type="String" v="true" name="seqName" id="_151542404612217">
+                <jpa:column name="SEQ_NAME" unique="false" nullable="false" insertable="true" updatable="true" table="SEQUENCE" length="50"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:table name="SEQUENCE"/>
+    </jpa:entity>
+    <jpa:entity compositePrimaryKeyType="D" compositePrimaryKeyClass="AlbumPK" abs="false" class="Album" v="true" jbn="false" xre="false" m="false" rootElement="_15154240461041" id="_15154240461165">
+        <jpa:attributes>
+            <jpa:basic optional="true" attribute-type="java.util.Date" v="true" xvt="" name="created" id="_151542404612220">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+                <jpa:column name="CREATED" unique="false" nullable="true" insertable="true" updatable="true" table="ALBUM"/>
+            </jpa:basic>
+            <jpa:basic optional="true" attribute-type="String" v="true" xvt="" name="name" id="_151542404612221">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="NAME" unique="false" nullable="true" insertable="true" updatable="true" table="ALBUM" length="255"/>
+            </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="SempicuserId" id="_151542423181630">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
+            <jpa:many-to-one optional="true" primaryKey="true" connected-entity-id="_15154240461152" connected-attribute-id="_151542432178932" v="true" xvt="" name="sempicUser" id="_151542432178631">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:many-to-one>
+            <jpa:many-to-many collection-type="java.util.List" connected-entity-id="_15154240461163" connected-attribute-id="_151542404612116" v="true" xvt="" name="pictureCollection" id="_151542404612222">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:join-table name="ALBUM_PICTURE">
+                    <jpa:join-column name="ALBUM_ID" rc="ID" unique="false" nullable="true" insertable="true" updatable="true"/>
+                    <jpa:inverse-join-column name="PICTURES_ID" rc="ID" unique="false" nullable="true" insertable="true" updatable="true"/>
+                </jpa:join-table>
+            </jpa:many-to-many>
+            <jpa:id attribute-type="Long" v="true" xvt="" name="id" id="_151542404612219">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+                <jpa:column name="ID" unique="false" nullable="false" insertable="true" updatable="true" table="ALBUM"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq e="false" name="Album.findBySempicuserId">
+            <jpa:query>Select a from Album a where a.SempicuserId=:SempicuserId</jpa:query>
+        </jpa:nq>
+        <jpa:nq e="false" name="Album.findBySempicuserId">
+            <jpa:query>Select a from Album a where a.SempicuserId=:SempicuserId</jpa:query>
+        </jpa:nq>
+        <jpa:table name="ALBUM"/>
+    </jpa:entity>
+    <jpa:snp loc="BEFORE_PACKAGE" e="true">/**
+ * This file was generated by the Jeddict
+ */</jpa:snp>
+    <jpa:c>
+        <db u="jdbc:derby://localhost:1527/sempic" n="sempic" p="sempic" d="org.apache.derby.jdbc.ClientDriver"/>
+    </jpa:c>
+    <jpa:wsl>
+        <jpa:ws n="Main" id="_151542404679923">
+            <i ref="_15154240461164" x="610" y="264"/>
+            <i ref="_15154240461165" x="30" y="32"/>
+            <i ref="_15154240461152" x="440" y="32"/>
+            <i ref="_15154240461163" x="263" y="284"/>
+        </jpa:ws>
+    </jpa:wsl>
+</jpa:entity-mappings>
