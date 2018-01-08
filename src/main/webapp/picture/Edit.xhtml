@@ -23,8 +23,6 @@
                     </h:inputText>
                     <h:outputLabel value="#{bundle.EditPictureLabel_name}" for="name" />
                     <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.EditPictureTitle_name}" />
-                    <h:outputLabel value="#{bundle.EditPictureLabel_albumId}" for="albumId" />
-                    <h:inputText id="albumId" value="#{pictureController.selected.albumId}" title="#{bundle.EditPictureTitle_albumId}" />
                 </h:panelGrid>
                 <h:commandLink action="#{pictureController.update}" value="#{bundle.EditPictureSaveLink}"/>
                 <br />

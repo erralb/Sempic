@@ -2,9 +2,11 @@ package fr.uga.miashs.sempic.model;
 
 import fr.uga.miashs.sempic.model.util.JsfUtil;
 import fr.uga.miashs.sempic.model.util.PaginationHelper;
+import java.io.InputStream;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -16,6 +18,7 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
+@ManagedBean
 @Named("pictureController")
 @SessionScoped
 public class PictureController implements Serializable {

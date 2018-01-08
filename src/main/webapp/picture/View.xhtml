@@ -23,8 +23,6 @@
                     </h:outputText>
                     <h:outputText value="#{bundle.ViewPictureLabel_name}"/>
                     <h:outputText value="#{pictureController.selected.name}" title="#{bundle.ViewPictureTitle_name}"/>
-                    <h:outputText value="#{bundle.ViewPictureLabel_albumId}"/>
-                    <h:outputText value="#{pictureController.selected.albumId}" title="#{bundle.ViewPictureTitle_albumId}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{pictureController.destroyAndView}" value="#{bundle.ViewPictureDestroyLink}"/>

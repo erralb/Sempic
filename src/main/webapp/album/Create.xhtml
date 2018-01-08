@@ -15,12 +15,6 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateAlbumLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{albumController.selected.id}" title="#{bundle.CreateAlbumTitle_id}" required="true" requiredMessage="#{bundle.CreateAlbumRequiredMessage_id}"/>
-                    <h:outputLabel value="#{bundle.CreateAlbumLabel_created}" for="created" />
-                    <h:inputText id="created" value="#{albumController.selected.created}" title="#{bundle.CreateAlbumTitle_created}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
                     <h:outputLabel value="#{bundle.CreateAlbumLabel_name}" for="name" />
                     <h:inputText id="name" value="#{albumController.selected.name}" title="#{bundle.CreateAlbumTitle_name}" />
                 </h:panelGrid>

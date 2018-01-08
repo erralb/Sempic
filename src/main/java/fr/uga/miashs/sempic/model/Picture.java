@@ -12,6 +12,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -38,7 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
 	, @NamedQuery(name = "Picture.findById", query = "SELECT p FROM Picture p WHERE p.id = :id")
 	, @NamedQuery(name = "Picture.findByAdded", query = "SELECT p FROM Picture p WHERE p.added = :added")
 	, @NamedQuery(name = "Picture.findByName", query = "SELECT p FROM Picture p WHERE p.name = :name")
-	, @NamedQuery(name = "Picture.findByAlbumId", query = "SELECT p FROM Picture p WHERE p.albumId = :albumId")})
+//	, @NamedQuery(name = "Picture.findByAlbumId", query = "SELECT p FROM Picture p WHERE p.albumId = :albumId")
+})
 public class Picture implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -46,6 +49,7 @@ public class Picture implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	@Column(name = "ADDED")
     @Temporal(TemporalType.DATE)
@@ -53,8 +57,13 @@ public class Picture implements Serializable {
 	@Size(max = 255)
     @Column(name = "NAME")
 	private String name;
-	@Column(name = "ALBUM_ID")
-	private BigInteger albumId;
+	
+    @Column(name = "FILENAME")
+	private String filename;
+	
+//	@Column(name = "ALBUM_ID")
+//	private BigInteger albumId;
+	
 	@JoinTable(name = "ALBUM_PICTURE", joinColumns = {
     	@JoinColumn(name = "PICTURES_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
     	@JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")})
@@ -91,14 +100,22 @@ public class Picture implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public BigInteger getAlbumId() {
-		return albumId;
+	
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setAlbumId(BigInteger albumId) {
-		this.albumId = albumId;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
+
+//	public BigInteger getAlbumId() {
+//		return albumId;
+//	}
+//
+//	public void setAlbumId(BigInteger albumId) {
+//		this.albumId = albumId;
+//	}
 
 	@XmlTransient
 	public Collection<Album> getAlbumCollection() {

@@ -13,18 +13,12 @@
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
-            <h:form>
+            <h:form enctype="multipart/form-data">
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreatePictureLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{pictureController.selected.id}" title="#{bundle.CreatePictureTitle_id}" required="true" requiredMessage="#{bundle.CreatePictureRequiredMessage_id}"/>
-                    <h:outputLabel value="#{bundle.CreatePictureLabel_added}" for="added" />
-                    <h:inputText id="added" value="#{pictureController.selected.added}" title="#{bundle.CreatePictureTitle_added}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                    </h:inputText>
                     <h:outputLabel value="#{bundle.CreatePictureLabel_name}" for="name" />
                     <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.CreatePictureTitle_name}" />
-                    <h:outputLabel value="#{bundle.CreatePictureLabel_albumId}" for="albumId" />
-                    <h:inputText id="albumId" value="#{pictureController.selected.albumId}" title="#{bundle.CreatePictureTitle_albumId}" />
+                    <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
+					<h:inputFile id="filename" value="#{uploadBean.file}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{pictureController.create}" value="#{bundle.CreatePictureSaveLink}" />
