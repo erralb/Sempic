@@ -47,6 +47,10 @@
                 <jpa:xm nil="false" req="false"/>
                 <jpa:column name="ALBUM_ID" unique="false" nullable="true" insertable="true" updatable="true" table="PICTURE"/>
             </jpa:basic>
+            <jpa:basic attribute-type="String" v="true" xvt="" name="filename" id="_15154483812997">
+                <jpa:xwm nil="false" req="false"/>
+                <jpa:xm nil="false" req="false"/>
+            </jpa:basic>
             <jpa:many-to-many own="true" collection-type="java.util.List" connected-entity-id="_15154240461165" connected-attribute-id="_151542404612222" v="true" xvt="" name="albumCollection" id="_151542404612116">
                 <jpa:xwm nil="false" req="false"/>
                 <jpa:xm nil="false" req="false"/>
@@ -57,6 +61,9 @@
                 <jpa:column name="ID" unique="false" nullable="false" insertable="true" updatable="true" table="PICTURE"/>
             </jpa:id>
         </jpa:attributes>
+        <jpa:nq e="false" name="Picture.findByFilename">
+            <jpa:query>Select p from Picture p where p.filename=:filename</jpa:query>
+        </jpa:nq>
         <jpa:table name="PICTURE"/>
     </jpa:entity>
     <jpa:entity compositePrimaryKeyClass="SequencePK" abs="false" class="Sequence" v="true" gen="false" xre="false" m="false" rootElement="_15154240461041" id="_15154240461164">
