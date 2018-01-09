@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.uga.miashs.sempic.model;
+package fr.uga.miashs.sempic.model.datalayer;
 
 import java.util.List;
 import javax.persistence.EntityManager;

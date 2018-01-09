@@ -38,7 +38,7 @@ public class UserView implements Serializable {
     private AuthManager auth;
 
     @EJB
-    private SempicUserDao dao;
+    private SempicUserFacade dao;
 
     public String create() {
         try { 
@@ -71,7 +71,7 @@ public class UserView implements Serializable {
     }
     
     public List<SempicUser> getUsers() {
-        return dao.readAll();
+        return dao.findAll();
     }
 }
 

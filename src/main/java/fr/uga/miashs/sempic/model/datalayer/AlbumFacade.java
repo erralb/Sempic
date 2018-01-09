@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.uga.miashs.sempic.model;
+package fr.uga.miashs.sempic.model.datalayer;
 
+import fr.uga.miashs.sempic.model.Album;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class AlbumFacade extends AbstractFacade<Album> {
 
-	@PersistenceContext(unitName = "SempicPU")
+	@PersistenceContext(unitName = "NEWSEMPICPU")
 	private EntityManager em;
 
 	@Override

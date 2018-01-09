@@ -10,26 +10,25 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
- * @author Jerome David <jerome.david@univ-grenoble-alpes.fr>
+ * @author Pierre Blarre <Pierre.Blarre@etu.univ-grenoble-alpes.fr>
  */
 @Stateless
-public class SempicUserDao extends AbstractFacade<SempicUser> {
+public class SempicUserFacade extends AbstractFacade<SempicUser> {
 
-    @PersistenceContext(unitName = "NEWSEMPICPU")
-    private EntityManager em;
+	@PersistenceContext(unitName = "NEWSEMPICPU")
+	private EntityManager em;
 
-    public SempicUserDao() {
-        super(SempicUser.class);
-    }
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+	public SempicUserFacade() {
+		super(SempicUser.class);
+	}
 
     public SempicUser getByEmail(String email) {
         try {
@@ -43,5 +42,5 @@ public class SempicUserDao extends AbstractFacade<SempicUser> {
             return null;
         }
     }
-    
+	
 }

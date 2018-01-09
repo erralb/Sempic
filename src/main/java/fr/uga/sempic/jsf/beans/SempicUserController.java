@@ -1,5 +1,7 @@
-package fr.uga.miashs.sempic.model;
+package fr.uga.sempic.jsf.beans;
 
+import fr.uga.miashs.sempic.model.SempicUser;
+import fr.uga.miashs.sempic.model.datalayer.SempicUserFacade;
 import fr.uga.miashs.sempic.model.util.JsfUtil;
 import fr.uga.miashs.sempic.model.util.PaginationHelper;
 
@@ -23,7 +25,7 @@ public class SempicUserController implements Serializable {
 	private SempicUser current;
 	private DataModel items = null;
 	@EJB
-	private fr.uga.miashs.sempic.model.SempicUserFacade ejbFacade;
+	private fr.uga.miashs.sempic.model.datalayer.SempicUserFacade ejbFacade;
 	private PaginationHelper pagination;
 	private int selectedItemIndex;
 

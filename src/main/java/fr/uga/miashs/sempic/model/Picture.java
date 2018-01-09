@@ -40,7 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
 	, @NamedQuery(name = "Picture.findById", query = "SELECT p FROM Picture p WHERE p.id = :id")
 	, @NamedQuery(name = "Picture.findByAdded", query = "SELECT p FROM Picture p WHERE p.added = :added")
 	, @NamedQuery(name = "Picture.findByName", query = "SELECT p FROM Picture p WHERE p.name = :name")
-//	, @NamedQuery(name = "Picture.findByAlbumId", query = "SELECT p FROM Picture p WHERE p.albumId = :albumId")
 })
 public class Picture implements Serializable {
 
@@ -60,9 +59,6 @@ public class Picture implements Serializable {
 	
     @Column(name = "FILENAME")
 	private String filename;
-	
-//	@Column(name = "ALBUM_ID")
-//	private BigInteger albumId;
 	
 	@JoinTable(name = "ALBUM_PICTURE", joinColumns = {
     	@JoinColumn(name = "PICTURES_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
@@ -108,14 +104,6 @@ public class Picture implements Serializable {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
-
-//	public BigInteger getAlbumId() {
-//		return albumId;
-//	}
-//
-//	public void setAlbumId(BigInteger albumId) {
-//		this.albumId = albumId;
-//	}
 
 	@XmlTransient
 	public Collection<Album> getAlbumCollection() {
