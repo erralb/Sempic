@@ -41,8 +41,9 @@ public class UserView implements Serializable {
     private SempicUserDao dao;
 
     public String create() {
-        try { 
-            dao.create(selected);
+        boolean createSuccessful = false;
+        try {
+            createSuccessful = dao.createAndCheck(selected);
         } catch (EJBException ex) {
             if (ex.getCause() instanceof ConstraintViolationException) {
                 ConstraintViolationException vEx = (ConstraintViolationException) ex.getCause();
@@ -55,7 +56,10 @@ public class UserView implements Serializable {
 
             }
         }
-        return "";
+        if (createSuccessful)
+            return "/index.xhtml?faces-redirect=true";
+        else
+            return "/create-user.xhtml?faces-redirect=true&error=true";
     }
 
     public SempicUser getSelected() {

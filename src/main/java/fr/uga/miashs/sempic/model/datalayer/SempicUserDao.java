@@ -31,6 +31,11 @@ public class SempicUserDao extends AbstractJpaDao<SempicUser,Long> {
         return em;
     }
 
+    public boolean createAndCheck(SempicUser entity) {
+        create(entity);
+        return getByEmail(entity.getEmail()) != null;
+    }
+    
     public SempicUser getByEmail(String email) {
         try {
         return (SempicUser) 

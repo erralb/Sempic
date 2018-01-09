@@ -28,7 +28,7 @@ public class SempicUser implements Serializable {
     
     
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private long id;
     
     @NotNull

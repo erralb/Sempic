@@ -9,8 +9,11 @@
     <body>
 
         <ui:composition template="./templates/sempic-template.xhtml">
-
+            
             <ui:define name="content">
+                <ui:fragment rendered="#{param['error'] == 'true'}">
+                    <p>Error during user creation</p>
+                </ui:fragment>
                 <h:form>
                     <p>
                         <label>Lastname:</label>
