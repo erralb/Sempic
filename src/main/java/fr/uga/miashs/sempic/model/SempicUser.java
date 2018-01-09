@@ -51,8 +51,8 @@ public class SempicUser implements Serializable {
     
     @NotNull
     private String salt;
-    
-    @ElementCollection
+        
+    @ElementCollection(fetch=FetchType.EAGER)
     @Enumerated
     private Set<Roles> roles;
     
