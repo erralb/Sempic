@@ -6,7 +6,7 @@
 package fr.uga.sempic.jsf.beans;
 
 import fr.uga.miashs.sempic.model.SempicUser;
-import fr.uga.miashs.sempic.model.datalayer.SempicUserDao;
+import fr.uga.miashs.sempic.model.datalayer.SempicUserFacade;
 import fr.uga.miashs.sempic.util.PagesAndRoles;
 import fr.uga.miashs.sempic.util.Roles;
 import java.io.Serializable;
@@ -34,7 +34,7 @@ public class AuthManager implements Serializable {
     private String requestedPage;
 
     @EJB
-    private SempicUserDao dao;
+    private SempicUserFacade dao;
 
     public AuthManager() {
     }

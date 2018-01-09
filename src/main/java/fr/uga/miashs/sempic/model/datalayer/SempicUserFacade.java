@@ -42,5 +42,9 @@ public class SempicUserFacade extends AbstractFacade<SempicUser> {
             return null;
         }
     }
-	
+
+    public boolean createAndCheck(SempicUser entity) {
+        create(entity);
+        return getByEmail(entity.getEmail()) != null;
+    }
 }

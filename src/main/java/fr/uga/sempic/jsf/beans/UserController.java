@@ -30,7 +30,7 @@ import javax.validation.ConstraintViolationException;
  */
 @Named
 @SessionScoped
-public class UserView implements Serializable {
+public class UserController implements Serializable {
 
     private SempicUser selected;
     

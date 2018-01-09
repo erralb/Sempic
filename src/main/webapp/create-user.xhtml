@@ -19,21 +19,21 @@
                         <label>Lastname:</label>
                         <br/>
                         <h:inputText p:type="text" id="lastname" 
-                               p:placeholder="Dupond" value="#{userView.selected.firstname}" 
+                               p:placeholder="Dupond" value="#{userController.selected.firstname}" 
                                required="required" title="Enter your lastname."/>
                     </p>
                     <p>
                         <label>Firstname:</label>
                         <br/>
                         <h:inputText p:type="text" id="firstname" 
-                               p:placeholder="Jacques" value="#{userView.selected.lastname}" 
+                               p:placeholder="Jacques" value="#{userController.selected.lastname}" 
                                required="required" title="Enter your firstname."/>
                     </p>
                     <p>
                         <label>Email:</label>
                         <br/>
                         <h:inputText p:type="email" id="email" 
-                               p:placeholder="jacques.dupond@truc.org" value="#{userView.selected.email}" 
+                               p:placeholder="jacques.dupond@truc.org" value="#{userController.selected.email}" 
                                required="required" title="Enter your mail address."/>
                     </p>
                     
@@ -41,14 +41,14 @@
                         <label>password:</label>
                         <br/>
                         <h:inputText p:type="password" id="password"
-                               value="#{userView.selected.password}" 
+                               value="#{userController.selected.password}" 
                                required="required" title="Enter your password."/>
                     </p>
                     
                     
                     <p>
                         <h:commandButton value="Create Account" 
-                                 action="#{userView.create()}"/>
+                                 action="#{userController.create()}"/>
                     </p>
                     
 
