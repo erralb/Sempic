@@ -15,7 +15,10 @@
     <h:body>
 
         <div id="top">
-            <ui:insert name="top"><h1><a href="#{request.contextPath}/index.xhtml">My Lil' Album</a></h1></ui:insert>
+            <ui:insert name="top">
+				<h1><a href="#{request.contextPath}/index.xhtml">My Lil' Album</a></h1>
+				<p>Hello #{authManager.currentUser().getLastname()} ( #{authManager.currentUser().getEmail()} )</p>
+			</ui:insert>
             
         </div>
         <div>
