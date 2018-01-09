@@ -17,8 +17,8 @@
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.CreatePictureLabel_name}" for="name" />
                     <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.CreatePictureTitle_name}" />
-                    <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
-					<h:inputFile id="filename" value="#{uploadBean.file}" />
+<!--                    <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
+					<h:inputFile id="filename" value="#{uploadBean.file}" />-->
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{pictureController.create}" value="#{bundle.CreatePictureSaveLink}" />

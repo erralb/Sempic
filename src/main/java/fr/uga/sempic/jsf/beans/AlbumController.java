@@ -90,7 +90,9 @@ public class AlbumController implements Serializable {
 	}
 
 	public String prepareCreate() {
-		current = new Album();
+		current = new Album();			
+		recreateModel();	
+		recreatePagination();
 		selectedItemIndex = -1;
 		return "Create";
 	}
@@ -110,7 +112,9 @@ public class AlbumController implements Serializable {
 
 	public String prepareEdit() {
 		current = (Album) getItems().getRowData();
-		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();		
+		recreateModel();	
+		recreatePagination();
 		return "Edit";
 	}
 
@@ -174,7 +178,6 @@ public class AlbumController implements Serializable {
 	public DataModel getItems() {
 //		if (items == null) {
 			items = getPagination().createPageDataModel();
-//			items = current.findAllByUser();
 //		}
 		return items;
 	}
