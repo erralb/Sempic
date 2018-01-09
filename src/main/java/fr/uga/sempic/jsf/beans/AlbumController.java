@@ -6,6 +6,7 @@ import fr.uga.miashs.sempic.model.util.JsfUtil;
 import fr.uga.miashs.sempic.model.util.PaginationHelper;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -17,6 +18,9 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Named("albumController")
 @SessionScoped
@@ -24,6 +28,10 @@ public class AlbumController implements Serializable {
 
 	private Album current;
 	private DataModel items = null;
+	
+    @Inject
+    private AuthManager auth;
+	
 	@EJB
 	private fr.uga.miashs.sempic.model.datalayer.AlbumFacade ejbFacade;
 	private PaginationHelper pagination;
@@ -47,15 +55,23 @@ public class AlbumController implements Serializable {
 	public PaginationHelper getPagination() {
 		if (pagination == null) {
 			pagination = new PaginationHelper(10) {
-
+				
+				List<Album> res;
+				
+				{
+					res = getFacade().findAllByUser();
+				}
+				
 				@Override
 				public int getItemsCount() {
-					return getFacade().count();
+//					return getFacade().count();
+					return res.size();
 				}
 
 				@Override
 				public DataModel createPageDataModel() {
-					return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+//					return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+					return new ListDataModel(res.subList(getPageFirstItem(), Math.min(getPageFirstItem() + getPageSize(),getItemsCount())));
 				}
 			};
 		}
@@ -81,6 +97,8 @@ public class AlbumController implements Serializable {
 
 	public String create() {
 		try {
+			current.setUser(auth.currentUser());//set logged user as Album owner
+			current.setCreated(new Timestamp(System.currentTimeMillis()));
 			getFacade().create(current);
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
 			return prepareCreate();
@@ -154,11 +172,17 @@ public class AlbumController implements Serializable {
 	}
 
 	public DataModel getItems() {
-		if (items == null) {
+//		if (items == null) {
 			items = getPagination().createPageDataModel();
-		}
+//			items = current.findAllByUser();
+//		}
 		return items;
 	}
+
+//	public static DataModel getAllAlbums() {
+//			items = getPagination().createPageDataModel();
+//		return items;
+//	}
 
 	private void recreateModel() {
 		items = null;

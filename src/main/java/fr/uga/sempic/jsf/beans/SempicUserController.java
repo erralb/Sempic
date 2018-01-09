@@ -154,9 +154,9 @@ public class SempicUserController implements Serializable {
 	}
 
 	public DataModel getItems() {
-		if (items == null) {
+//		if (items == null) {
 			items = getPagination().createPageDataModel();
-		}
+//		}
 		return items;
 	}
 

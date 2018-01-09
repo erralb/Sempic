@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -31,9 +32,10 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "ALBUM")
-@XmlRootElement
+//@XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Album.findAll", query = "SELECT a FROM Album a")
+	, @NamedQuery(name = "Album.findAllByUser", query = "SELECT a FROM Album a WHERE a.user = :user")
 	, @NamedQuery(name = "Album.findById", query = "SELECT a FROM Album a WHERE a.id = :id")
 	, @NamedQuery(name = "Album.findByCreated", query = "SELECT a FROM Album a WHERE a.created = :created")
 	, @NamedQuery(name = "Album.findByName", query = "SELECT a FROM Album a WHERE a.name = :name")})
@@ -54,6 +56,17 @@ public class Album implements Serializable {
 	private String name;
 	@ManyToMany(mappedBy = "albumCollection")
 	private Collection<Picture> pictureCollection;
+	
+	@ManyToOne
+	private SempicUser user;
+
+	public SempicUser getUser() {
+		return user;
+	}
+
+	public void setUser(SempicUser user) {
+		this.user = user;
+	}
 
 	public Album() {
 	}
