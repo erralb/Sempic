@@ -86,6 +86,10 @@ public class AuthManager implements Serializable {
     public boolean userConnected() {
         return connectedUser!=null;
     }
+    
+    public SempicUser currentUser() {
+        return connectedUser;
+    }
 
     public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();

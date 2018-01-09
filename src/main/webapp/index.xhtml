@@ -8,9 +8,9 @@
 
     <body>
 
-        <ui:composition template="./templates/sempic-template.xhtml">
+		<ui:composition template="/template.xhtml">
 
-			<ui:define name="content">
+			<ui:define name="body">
 
 				<h:panelGroup rendered="#{not authManager.userConnected()}" >
 					Vous devez vous identifier ou créer un compte pour accéder à l'application
@@ -24,7 +24,25 @@
 
         </ui:composition>
 
+		<br />
+		<h:link outcome="/albums/album/List" value="Show All Album Items"/>
+		<br />
+		<h:link outcome="/album/List" value="Show All Album Items"/>
+		<br />
+		<h:link outcome="/picture/List" value="Show All Picture Items"/>
+		<br />
+		<h:link outcome="/sempicUser/List" value="Show All SempicUser Items"/>
+		<br />
+		<h:link outcome="/album/List" value="Show All Album Items"/>
+		<br />
+		<h:link outcome="/picture/List" value="Show All Picture Items"/>
 	</body>
+
+
+
+
+
+
 
 
 </html>

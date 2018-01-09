@@ -1,10 +1,14 @@
-package fr.uga.miashs.sempic.model;
+package fr.uga.sempic.jsf.beans;
 
+import fr.uga.miashs.sempic.model.Picture;
+import fr.uga.miashs.sempic.model.datalayer.PictureFacade;
 import fr.uga.miashs.sempic.model.util.JsfUtil;
 import fr.uga.miashs.sempic.model.util.PaginationHelper;
+import java.io.InputStream;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -16,29 +20,30 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("sempicUserController")
+@ManagedBean
+@Named("pictureController")
 @SessionScoped
-public class SempicUserController implements Serializable {
+public class PictureController implements Serializable {
 
-	private SempicUser current;
+	private Picture current;
 	private DataModel items = null;
 	@EJB
-	private fr.uga.miashs.sempic.model.SempicUserFacade ejbFacade;
+	private fr.uga.miashs.sempic.model.datalayer.PictureFacade ejbFacade;
 	private PaginationHelper pagination;
 	private int selectedItemIndex;
 
-	public SempicUserController() {
+	public PictureController() {
 	}
 
-	public SempicUser getSelected() {
+	public Picture getSelected() {
 		if (current == null) {
-			current = new SempicUser();
+			current = new Picture();
 			selectedItemIndex = -1;
 		}
 		return current;
 	}
 
-	private SempicUserFacade getFacade() {
+	private PictureFacade getFacade() {
 		return ejbFacade;
 	}
 
@@ -66,13 +71,13 @@ public class SempicUserController implements Serializable {
 	}
 
 	public String prepareView() {
-		current = (SempicUser) getItems().getRowData();
+		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
 		return "View";
 	}
 
 	public String prepareCreate() {
-		current = new SempicUser();
+		current = new Picture();
 		selectedItemIndex = -1;
 		return "Create";
 	}
@@ -80,7 +85,7 @@ public class SempicUserController implements Serializable {
 	public String create() {
 		try {
 			getFacade().create(current);
-			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SempicUserCreated"));
+			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureCreated"));
 			return prepareCreate();
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -89,7 +94,7 @@ public class SempicUserController implements Serializable {
 	}
 
 	public String prepareEdit() {
-		current = (SempicUser) getItems().getRowData();
+		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
 		return "Edit";
 	}
@@ -97,7 +102,7 @@ public class SempicUserController implements Serializable {
 	public String update() {
 		try {
 			getFacade().edit(current);
-			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SempicUserUpdated"));
+			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureUpdated"));
 			return "View";
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -106,7 +111,7 @@ public class SempicUserController implements Serializable {
 	}
 
 	public String destroy() {
-		current = (SempicUser) getItems().getRowData();
+		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
 		performDestroy();
 		recreatePagination();
@@ -130,7 +135,7 @@ public class SempicUserController implements Serializable {
 	private void performDestroy() {
 		try {
 			getFacade().remove(current);
-			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("SempicUserDeleted"));
+			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureDeleted"));
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
 		}
@@ -186,30 +191,30 @@ public class SempicUserController implements Serializable {
 		return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
 	}
 
-	public SempicUser getSempicUser(long id) {
+	public Picture getPicture(java.lang.Long id) {
 		return ejbFacade.find(id);
 	}
 
-	@FacesConverter(forClass = SempicUser.class)
-	public static class SempicUserControllerConverter implements Converter {
+	@FacesConverter(forClass = Picture.class)
+	public static class PictureControllerConverter implements Converter {
 
 		@Override
 		public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
 			if (value == null || value.length() == 0) {
 				return null;
 			}
-			SempicUserController controller = (SempicUserController) facesContext.getApplication().getELResolver().
-					getValue(facesContext.getELContext(), null, "sempicUserController");
-			return controller.getSempicUser(getKey(value));
+			PictureController controller = (PictureController) facesContext.getApplication().getELResolver().
+					getValue(facesContext.getELContext(), null, "pictureController");
+			return controller.getPicture(getKey(value));
 		}
 
-		long getKey(String value) {
-			long key;
-			key = Long.parseLong(value);
+		java.lang.Long getKey(String value) {
+			java.lang.Long key;
+			key = Long.valueOf(value);
 			return key;
 		}
 
-		String getStringKey(long value) {
+		String getStringKey(java.lang.Long value) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(value);
 			return sb.toString();
@@ -220,11 +225,11 @@ public class SempicUserController implements Serializable {
 			if (object == null) {
 				return null;
 			}
-			if (object instanceof SempicUser) {
-				SempicUser o = (SempicUser) object;
+			if (object instanceof Picture) {
+				Picture o = (Picture) object;
 				return getStringKey(o.getId());
 			} else {
-				throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + SempicUser.class.getName());
+				throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Picture.class.getName());
 			}
 		}
 
