@@ -4,9 +4,11 @@ import fr.uga.miashs.sempic.model.Picture;
 import fr.uga.miashs.sempic.model.datalayer.PictureFacade;
 import fr.uga.miashs.sempic.model.util.JsfUtil;
 import fr.uga.miashs.sempic.model.util.PaginationHelper;
+import java.io.File;
 import java.io.InputStream;
 
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -19,6 +21,8 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 
 @ManagedBean
 @Named("pictureController")
@@ -31,6 +35,8 @@ public class PictureController implements Serializable {
 	private fr.uga.miashs.sempic.model.datalayer.PictureFacade ejbFacade;
 	private PaginationHelper pagination;
 	private int selectedItemIndex;
+	
+	private static final String UPLOAD_DIR = "uploads";
 
 	public PictureController() {
 	}
@@ -82,10 +88,39 @@ public class PictureController implements Serializable {
 		return "Create";
 	}
 
+	private Part file;
+
+	public Part getFile() {
+		return file;
+	}
+
+	public void setFile(Part file) {
+		this.file = file;
+	}
+	
 	public String create() {
 		try {
+			
+			current.setFilename(file.getSubmittedFileName());
 			getFacade().create(current);
+			
+			ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+			
+			//From https://stackoverflow.com/questions/18664579/recommended-way-to-save-uploaded-files-in-a-servlet-application
+			File uploads = new File(ctx.getInitParameter("upload.location"));
+			File newFile = new File(uploads, file.getSubmittedFileName());
+			try (InputStream input = file.getInputStream()) {
+				Files.copy(input, newFile.toPath());
+			}
+			
+			//If we want to make sur it's not overwriting, but for some reasons generates an error
+//			File tmpfile = File.createTempFile("somefilename-", ".ext", uploads);
+//			try (InputStream input = file.getInputStream()) {
+//				Files.copy(input, tmpfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//			}
+
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureCreated"));
+			
 			return prepareCreate();
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -157,9 +192,9 @@ public class PictureController implements Serializable {
 	}
 
 	public DataModel getItems() {
-		if (items == null) {
+//		if (items == null) {
 			items = getPagination().createPageDataModel();
-		}
+//		}
 		return items;
 	}
 
