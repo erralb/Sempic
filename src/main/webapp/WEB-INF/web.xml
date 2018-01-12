@@ -4,10 +4,22 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+	
 	<context-param>
         <param-name>upload.location</param-name>
         <param-value>/web/files</param-value>
 	</context-param>
+	
+	<context-param>
+		<param-name>alternatedocroot_1</param-name>
+		<param-value>from=images/* dir=/web/files/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>alternatedocroot_2</param-name>
+		<param-value>from=/files/* dir=/web/files/</param-value>
+	</context-param>
+	
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -26,5 +38,7 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+	
+
     
 </web-app>
