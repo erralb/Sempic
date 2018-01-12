@@ -205,6 +205,10 @@ public class PictureController implements Serializable {
 //		}
 		return items;
 	}
+	
+	public DataModel getUserItems() {
+		return new ListDataModel(getFacade().findAllByUser());
+	}
 
 	private void recreateModel() {
 		items = null;

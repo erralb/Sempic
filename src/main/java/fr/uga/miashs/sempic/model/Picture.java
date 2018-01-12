@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "Picture.findAll", query = "SELECT p FROM Picture p")
+	, @NamedQuery(name = "Picture.findAllByUser", query = "SELECT a FROM Picture a WHERE a.user = :user")
 	, @NamedQuery(name = "Picture.findById", query = "SELECT p FROM Picture p WHERE p.id = :id")
 	, @NamedQuery(name = "Picture.findByAdded", query = "SELECT p FROM Picture p WHERE p.added = :added")
 	, @NamedQuery(name = "Picture.findByName", query = "SELECT p FROM Picture p WHERE p.name = :name")
