@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -21,6 +22,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 
@@ -31,6 +33,10 @@ public class PictureController implements Serializable {
 
 	private Picture current;
 	private DataModel items = null;
+	
+    @Inject
+    private AuthManager auth;
+	
 	@EJB
 	private fr.uga.miashs.sempic.model.datalayer.PictureFacade ejbFacade;
 	private PaginationHelper pagination;
@@ -101,6 +107,8 @@ public class PictureController implements Serializable {
 	public String create() {
 		try {
 			
+			current.setUser(auth.currentUser());//set logged user as Album owner
+			current.setAdded(new Timestamp(System.currentTimeMillis()));
 			current.setFilename(file.getSubmittedFileName());
 			getFacade().create(current);
 			

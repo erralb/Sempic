@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -59,6 +60,14 @@ public class Picture implements Serializable {
     @Column(name = "FILENAME")
 	private String filename;
 	
+	@JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")
+    @ManyToOne
+	private Album album;
+	
+	@ManyToOne
+	private SempicUser user;
+
+	
 	@JoinTable(name = "ALBUM_PICTURE", joinColumns = {
     	@JoinColumn(name = "PICTURES_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
     	@JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")})
@@ -78,6 +87,22 @@ public class Picture implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public SempicUser getUser() {
+		return user;
+	}
+
+	public void setUser(SempicUser user) {
+		this.user = user;
+	}
+
+	public Album getAlbum() {
+		return album;
+	}
+
+	public void setAlbum(Album album) {
+		this.album = album;
 	}
 
 	public Date getAdded() {

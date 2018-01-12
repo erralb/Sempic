@@ -79,6 +79,7 @@ public class AlbumController implements Serializable {
 	}
 
 	public String prepareList() {
+		recreatePagination();
 		recreateModel();
 		return "List";
 	}
@@ -177,9 +178,14 @@ public class AlbumController implements Serializable {
 
 	public DataModel getItems() {
 //		if (items == null) {
+//			recreatePagination();
 			items = getPagination().createPageDataModel();
 //		}
 		return items;
+	}
+
+	public DataModel getUserItems() {
+		return new ListDataModel(getFacade().findAllByUser());
 	}
 
 //	public static DataModel getAllAlbums() {

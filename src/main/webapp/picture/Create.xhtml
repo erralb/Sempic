@@ -15,10 +15,16 @@
             </h:panelGroup>
             <h:form enctype="multipart/form-data">
                 <h:panelGrid columns="2">
+					
+                    <h:outputLabel value="Album" for="name" />
+					<h:selectOneMenu value="#{pictureController.selected.album}">
+						<f:selectItems value="#{albumController.items}" var="album" itemLabel="#{album.name} (#{album.id})" />
+					</h:selectOneMenu>
+					
                     <h:outputLabel value="#{bundle.CreatePictureLabel_name}" for="name" />
                     <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.CreatePictureTitle_name}" />
-                    <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
 					
+                    <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
 					<h:inputFile  id="file" value="#{pictureController.file}" />
 					
                 </h:panelGrid>

@@ -19,7 +19,7 @@
 					<h:outputText value="#{albumController.pagination.pageFirstItem + 1}..#{albumController.pagination.pageLastItem + 1}/#{albumController.pagination.itemsCount}"/>&nbsp;
 					<h:commandLink action="#{albumController.previous}" value="#{bundle.Previous} #{albumController.pagination.pageSize}" rendered="#{albumController.pagination.hasPreviousPage}"/>&nbsp;
 					<h:commandLink action="#{albumController.next}" value="#{bundle.Next} #{albumController.pagination.pageSize}" rendered="#{albumController.pagination.hasNextPage}"/>&nbsp;
-					<h:dataTable value="#{albumController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+					<h:dataTable value="#{albumController.getUserItems()}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
 						<h:column>
 							<f:facet name="header">
 								<h:outputText value="#{bundle.ListAlbumTitle_id}"/>
@@ -39,6 +39,12 @@
 								<h:outputText value="#{bundle.ListAlbumTitle_name}"/>
 							</f:facet>
 							<h:outputText value="#{item.name}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="User"/>
+							</f:facet>
+							<h:outputText value="#{item.user}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
