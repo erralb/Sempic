@@ -15,14 +15,16 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditPictureLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{pictureController.selected.id}" title="#{bundle.EditPictureTitle_id}" required="true" requiredMessage="#{bundle.EditPictureRequiredMessage_id}"/>
-                    <h:outputLabel value="#{bundle.EditPictureLabel_added}" for="added" />
-                    <h:inputText id="added" value="#{pictureController.selected.added}" title="#{bundle.EditPictureTitle_added}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                    </h:inputText>
+                    <h:outputLabel value="Album" for="name" />
+					<h:selectOneMenu value="#{pictureController.selected.album}">
+						<f:selectItems value="#{albumController.items}" var="album" itemLabel="#{album.name} (#{album.id})" />
+					</h:selectOneMenu>
                     <h:outputLabel value="#{bundle.EditPictureLabel_name}" for="name" />
                     <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.EditPictureTitle_name}" />
+					
+                    <h:outputLabel value="#{bundle.EditPictureLabel_filename}" for="name" /> : 
+                    <h:outputText value="#{pictureController.selected.filename}" title="#{bundle.EditPictureLabel_filename}"/>
+					
                 </h:panelGrid>
                 <h:commandLink action="#{pictureController.update}" value="#{bundle.EditPictureSaveLink}"/>
                 <br />

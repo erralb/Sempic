@@ -12,12 +12,7 @@
 	
 	<context-param>
 		<param-name>alternatedocroot_1</param-name>
-		<param-value>from=images/* dir=/web/files/</param-value>
-	</context-param>
-	
-	<context-param>
-		<param-name>alternatedocroot_2</param-name>
-		<param-value>from=/files/* dir=/web/files/</param-value>
+		<param-value>from=/files/* dir=/web/</param-value>
 	</context-param>
 	
     <servlet>
@@ -40,5 +35,4 @@
     </welcome-file-list>
 	
 
-    
 </web-app>
