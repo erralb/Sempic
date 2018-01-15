@@ -10,11 +10,6 @@
         <param-value>/web/files</param-value>
 	</context-param>
 	
-	<context-param>
-		<param-name>alternatedocroot_1</param-name>
-		<param-value>from=/files/* dir=/web/</param-value>
-	</context-param>
-	
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
