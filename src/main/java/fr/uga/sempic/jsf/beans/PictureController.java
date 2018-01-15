@@ -2,14 +2,19 @@ package fr.uga.sempic.jsf.beans;
 
 import fr.uga.miashs.sempic.model.Picture;
 import fr.uga.miashs.sempic.model.datalayer.PictureFacade;
+import fr.uga.miashs.sempic.model.rdf.SempicOnto;
 import fr.uga.miashs.sempic.model.util.JsfUtil;
 import fr.uga.miashs.sempic.model.util.PaginationHelper;
+import fr.uga.miashs.sempic.rdf.Namespaces;
+import fr.uga.miashs.sempic.rdf.RDFStore;
 import java.io.File;
 import java.io.InputStream;
 
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -25,6 +30,10 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDFS;
 
 @ManagedBean
 @Named("pictureController")
@@ -34,6 +43,12 @@ public class PictureController implements Serializable {
 	private Picture current;
 	private DataModel items = null;
 	
+	private Part file;
+	
+	private String depicts;
+	private String takenBy;
+
+	
     @Inject
     private AuthManager auth;
 	
@@ -42,9 +57,23 @@ public class PictureController implements Serializable {
 	private PaginationHelper pagination;
 	private int selectedItemIndex;
 	
-	private static final String UPLOAD_DIR = "uploads";
-
 	public PictureController() {
+	}
+	
+	public String getDepicts() {
+		return depicts;
+	}
+
+	public void setDepicts(String depicts) {
+		this.depicts = depicts;
+	}
+
+	public String getTakenBy() {
+		return takenBy;
+	}
+
+	public void setTakenBy(String takenBy) {
+		this.takenBy = takenBy;
 	}
 
 	public Picture getSelected() {
@@ -89,12 +118,15 @@ public class PictureController implements Serializable {
 	}
 
 	public String prepareCreate() {
+		
+//        RDFStore s = new RDFStore();
+//        List<Resource> classes = s.listSubClassesOf(SempicOnto.Depiction);
+//        classes.forEach(c -> {System.out.println(c);});
+		
 		current = new Picture();
 		selectedItemIndex = -1;
 		return "Create";
 	}
-
-	private Part file;
 
 	public Part getFile() {
 		return file;
@@ -107,25 +139,52 @@ public class PictureController implements Serializable {
 	public String create() {
 		try {
 			
+			//Save Picture Model
 			current.setUser(auth.currentUser());//set logged user as Album owner
 			current.setAdded(new Timestamp(System.currentTimeMillis()));
 			current.setFilename(file.getSubmittedFileName());
 			getFacade().create(current);
 			
-			ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-			
+			//Save File
 			//From https://stackoverflow.com/questions/18664579/recommended-way-to-save-uploaded-files-in-a-servlet-application
+			ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 			File uploads = new File(ctx.getInitParameter("upload.location"));
 			File newFile = new File(uploads, file.getSubmittedFileName());
 			try (InputStream input = file.getInputStream()) {
 				Files.copy(input, newFile.toPath());
 			}
-			
 			//If we want to make sur it's not overwriting, but for some reasons generates an error
 //			File tmpfile = File.createTempFile("somefilename-", ".ext", uploads);
 //			try (InputStream input = file.getInputStream()) {
 //				Files.copy(input, tmpfile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 //			}
+			
+			//Save RDF
+			
+			//Get form values
+//			Map<String,String> params = (Map<String,String>) (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//			String depicts = params.get("depicts");
+//			String takenBy = params.get("takenBy");
+			
+			// create an empty RDF graph
+			Model m = ModelFactory.createDefaultModel();
+			// create an instance of Photo in Model m
+			Resource photoRes = m.createResource(Namespaces.getPhotoUri(current.getId()), SempicOnto.Photo);
+
+			photoRes.addLiteral(SempicOnto.albumId, current.getAlbum().getId());
+			photoRes.addLiteral(SempicOnto.ownerId, auth.currentUser().getId());
+
+			Resource newPerson = m.createResource(SempicOnto.Person);
+			newPerson.addLiteral(RDFS.label, depicts);
+			photoRes.addProperty(SempicOnto.depicts, newPerson);
+			
+			Resource anotherPerson = m.createResource(SempicOnto.Person);
+			anotherPerson.addLiteral(RDFS.label, takenBy);
+			photoRes.addProperty(SempicOnto.takenBy, anotherPerson);
+
+			m.write(System.out, "turtle");
+			
+			
 
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureCreated"));
 			

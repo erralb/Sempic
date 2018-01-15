@@ -26,6 +26,14 @@
 					
                     <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
 					<h:inputFile  id="file" value="#{pictureController.file}" />
+
+					
+                    <h:outputLabel value="Depicts" for="depicts" />
+                    <h:inputText id="depicts" value="#{pictureController.depicts}" title="Depicts" />
+					
+                    <h:outputLabel value="takenBy" for="takenBy" />
+                    <h:inputText id="takenBy" value="#{pictureController.takenBy}" title="takenBy" />
+					
 					
                 </h:panelGrid>
                 <br />

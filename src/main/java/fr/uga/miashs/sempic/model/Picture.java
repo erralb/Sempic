@@ -27,6 +27,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 
 /**
  *
@@ -74,7 +76,8 @@ public class Picture implements Serializable {
     	@JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")})
     @ManyToMany
 	private Collection<Album> albumCollection;
-
+	
+	
 	public Picture() {
 	}
 
