@@ -19,6 +19,12 @@
 					Vous n'avez pas les droits pour accéder à cette page. ( créer un compte avec admin@admin.com / admin / admin pour générer un compte avec le rôle administrateur)
 				</h:panelGroup>
 
+				<br />
+				<br />
+				<h:outputText value="Error Code: #{errorHandler.statusCode}"></h:outputText>
+				<br />
+				<h:outputText value="Error Desscription: #{errorHandler.message}"></h:outputText>
+				
 			</ui:define>
 
         </ui:composition>

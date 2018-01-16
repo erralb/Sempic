@@ -77,18 +77,19 @@ public class PictureController implements Serializable {
 	}
 	
 	public String[] getDepicts() {
-		if(depicts == null)
-		{
-			RDFStore rdfs = new RDFStore();
-			Resource photo = rdfs.readPhoto(current.getId());
-			photo.getModel().write(System.out,"turtle");
-//			 print the graph on the standard output
-//			pRes.getModel().write(System.out);
-			System.out.println(photo.toString());
-			
-		}
-//		return depicts;
-		return new String[1];
+//		if(depicts == null)
+//		{
+//			current = getSelected();
+//			RDFStore rdfs = new RDFStore();
+//			Resource photo = rdfs.readPhoto(current.getId());
+//			photo.getModel().write(System.out,"turtle");
+////			 print the graph on the standard output
+////			pRes.getModel().write(System.out);
+//			System.out.println(photo.toString());
+//			
+//		}
+		return depicts;
+//		return new String[1];
 	}
 
 	public void setDepicts(String[] depicts) {
