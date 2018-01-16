@@ -77,7 +77,18 @@ public class PictureController implements Serializable {
 	}
 	
 	public String[] getDepicts() {
-		return depicts;
+		if(depicts == null)
+		{
+			RDFStore rdfs = new RDFStore();
+			Resource photo = rdfs.readPhoto(current.getId());
+			photo.getModel().write(System.out,"turtle");
+//			 print the graph on the standard output
+//			pRes.getModel().write(System.out);
+			System.out.println(photo.toString());
+			
+		}
+//		return depicts;
+		return new String[1];
 	}
 
 	public void setDepicts(String[] depicts) {
@@ -255,6 +266,7 @@ public class PictureController implements Serializable {
 		try {
 			getFacade().edit(current);
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureUpdated"));
+			recreatePagination();
 			return "View";
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -317,15 +329,20 @@ public class PictureController implements Serializable {
 	}
 
 	public DataModel getItems() {
-		
-//		if (items == null) {
+		if (items == null) {
 			items = getPagination().createPageDataModel();
-//		}
+			System.out.print("Items null");
+		}
 		return items;
 	}
 	
 	public DataModel getUserItems() {
-		return new ListDataModel(getFacade().findAllByUser());
+		if (items == null) {
+			items = getPagination().createPageDataModel();
+			System.out.print("Items null");
+		}
+		return items;
+//		return new ListDataModel(getFacade().findAllByUser());
 	}
 
 	private void recreateModel() {
