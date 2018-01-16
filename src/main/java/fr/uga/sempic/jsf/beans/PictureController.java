@@ -12,6 +12,8 @@ import java.io.InputStream;
 
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -284,7 +286,15 @@ public class PictureController implements Serializable {
 
 	private void performDestroy() {
 		try {
+			//Remove from db
 			getFacade().remove(current);
+			
+			//delete file
+			ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+			String filename = current.getFilename();
+			Path fileToDeletePath = Paths.get(ctx.getInitParameter("upload.location")+File.separator+filename);
+			Files.delete(fileToDeletePath);
+
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureDeleted"));
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
