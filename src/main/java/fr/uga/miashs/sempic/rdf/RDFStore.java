@@ -128,7 +128,7 @@ public class RDFStore {
                 + "} WHERE {"
                 + "?s <" + RDFS.subClassOf + "> <" + c.getURI() + "> ."
                 + "?s <" + RDFS.label + "> ?o ."
-                + "}");
+                + "} ORDER BY ASC(?o)");
         return m.listSubjects().toList();
     }
 

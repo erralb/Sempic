@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -143,30 +145,24 @@ public class PictureController implements Serializable {
 		this.file = file;
 	}
 	
-    public List<Resource> listSubClassesOf(Resource c) {
-		RDFStore rdfs = new RDFStore();
-		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Animal);
-		//@TODO: Change this to have the labels in the select instead of the whole URL
-//		List<Resource> annotations = rdfs.createAnonInstances(resources);
-//        annotations.forEach(i -> {
-//            System.out.println(i.getProperty(RDFS.label).getLiteral());
-//        });
-		
-		return resources;
-    }
-	
-	
+	/**
+	 * Lists depiction resources
+	 * @return ArrayList<SelectItem> the items for f:selectItems in the views
+	 */
     public ArrayList<SelectItem> listResources() {
-		
 		rdfSelect = new ArrayList<SelectItem>();
 		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal));
 		rdfSelect.add(buildSelectItems("Person",SempicOnto.Person));
 		rdfSelect.add(buildSelectItems("Place",SempicOnto.Place));
-		
 		return rdfSelect;
-		
     }
 	
+	/**
+	 * Creates SelectItems group
+	 * @param groupName
+	 * @param res the resource to add
+	 * @return SelectItemGroup
+	 */
 	public SelectItemGroup buildSelectItems(String groupName, Resource res)
 	{
 		//Get subclasses
@@ -176,10 +172,11 @@ public class PictureController implements Serializable {
 			new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString());
         });
 		//Build List
-		List<SelectItem> selectItems = new ArrayList<SelectItem>();
+		ArrayList<SelectItem> selectItems = new ArrayList<SelectItem>();
 		resources.forEach(i -> {
 			selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
         });
+		//list to array
 		SelectItem[] selectItemsArray= selectItems.toArray(new SelectItem[selectItems.size()]);
 		//Create itemGroup and add elements
 		SelectItemGroup itemGroup = new SelectItemGroup(groupName);
@@ -187,28 +184,6 @@ public class PictureController implements Serializable {
 
 		return itemGroup;
 	}
-	
-	
-    public List<Resource> listAnimals() {
-		RDFStore rdfs = new RDFStore();
-		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Animal);
-		return resources;
-    }
-    public List<Resource> listPersons() {
-		RDFStore rdfs = new RDFStore();
-		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Person);
-		return resources;
-    }
-    public List<Resource> listEvents() {
-		RDFStore rdfs = new RDFStore();
-		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Event);
-		return resources;
-    }
-    public List<Resource> listPlaces() {
-		RDFStore rdfs = new RDFStore();
-		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Place);
-		return resources;
-    }
 	
 	public String create() {
 		try {
@@ -234,7 +209,6 @@ public class PictureController implements Serializable {
 //			}
 			
 			//Save RDF
-
 			// create an empty RDF graph
 			Model m = ModelFactory.createDefaultModel();
 			// create an instance of Photo in Model m
