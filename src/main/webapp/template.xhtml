@@ -7,8 +7,12 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet  name="css/default.css"/>
+        <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>
+		
+		<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/multiselect/css/multi-select.dist.css" />
+		
+
         <title>My Lil Album</title>
     </h:head>
 
@@ -46,6 +50,11 @@
 <!--        <div id="bottom">
             <ui:insert name="bottom">Bottom</ui:insert>
         </div>-->
+
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
+		<script type="text/javascript" src="#{request.contextPath}/resources/multiselect/js/jquery.multi-select.js" /> 
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.quicksearch.js" /> 
+		<script type="text/javascript" src="#{request.contextPath}/resources/js/app.js"></script>
 
     </h:body>
 

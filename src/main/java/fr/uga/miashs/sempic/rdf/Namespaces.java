@@ -12,8 +12,6 @@ package fr.uga.miashs.sempic.rdf;
 public class Namespaces {
     
     public final static String photoNS = "http://miashs.univ-grenoble-alpes.fr/photo/";
-    //public final static String photoNS = "http://http://miashs.univ-grenoble-alpes.fr/photo";
-
     
     public static String getPhotoUri(long photoId) {
         return photoNS+photoId;

@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -27,6 +28,7 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
@@ -45,8 +47,18 @@ public class PictureController implements Serializable {
 	
 	private Part file;
 	
-	private String depicts;
+	private String[] depicts;
 	private String takenBy;
+	
+	private ArrayList<SelectItem> rdfSelect;
+
+	public ArrayList<SelectItem> getRdfSelect() {
+		return rdfSelect;
+	}
+
+	public void setRdfSelect(ArrayList<SelectItem> rdfSelect) {
+		this.rdfSelect = rdfSelect;
+	}
 
 	
     @Inject
@@ -60,11 +72,11 @@ public class PictureController implements Serializable {
 	public PictureController() {
 	}
 	
-	public String getDepicts() {
+	public String[] getDepicts() {
 		return depicts;
 	}
 
-	public void setDepicts(String depicts) {
+	public void setDepicts(String[] depicts) {
 		this.depicts = depicts;
 	}
 
@@ -118,11 +130,6 @@ public class PictureController implements Serializable {
 	}
 
 	public String prepareCreate() {
-		
-//        RDFStore s = new RDFStore();
-//        List<Resource> classes = s.listSubClassesOf(SempicOnto.Depiction);
-//        classes.forEach(c -> {System.out.println(c);});
-		
 		current = new Picture();
 		selectedItemIndex = -1;
 		return "Create";
@@ -135,6 +142,73 @@ public class PictureController implements Serializable {
 	public void setFile(Part file) {
 		this.file = file;
 	}
+	
+    public List<Resource> listSubClassesOf(Resource c) {
+		RDFStore rdfs = new RDFStore();
+		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Animal);
+		//@TODO: Change this to have the labels in the select instead of the whole URL
+//		List<Resource> annotations = rdfs.createAnonInstances(resources);
+//        annotations.forEach(i -> {
+//            System.out.println(i.getProperty(RDFS.label).getLiteral());
+//        });
+		
+		return resources;
+    }
+	
+	
+    public ArrayList<SelectItem> listResources() {
+		
+		rdfSelect = new ArrayList<SelectItem>();
+		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal));
+		rdfSelect.add(buildSelectItems("Person",SempicOnto.Person));
+		rdfSelect.add(buildSelectItems("Place",SempicOnto.Place));
+		
+		return rdfSelect;
+		
+    }
+	
+	public SelectItemGroup buildSelectItems(String groupName, Resource res)
+	{
+		//Get subclasses
+		RDFStore rdfs = new RDFStore();
+		List<Resource> resources = rdfs.listSubClassesOf(res);
+        resources.forEach(i -> {
+			new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString());
+        });
+		//Build List
+		List<SelectItem> selectItems = new ArrayList<SelectItem>();
+		resources.forEach(i -> {
+			selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
+        });
+		SelectItem[] selectItemsArray= selectItems.toArray(new SelectItem[selectItems.size()]);
+		//Create itemGroup and add elements
+		SelectItemGroup itemGroup = new SelectItemGroup(groupName);
+		itemGroup.setSelectItems(selectItemsArray);
+
+		return itemGroup;
+	}
+	
+	
+    public List<Resource> listAnimals() {
+		RDFStore rdfs = new RDFStore();
+		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Animal);
+		return resources;
+    }
+    public List<Resource> listPersons() {
+		RDFStore rdfs = new RDFStore();
+		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Person);
+		return resources;
+    }
+    public List<Resource> listEvents() {
+		RDFStore rdfs = new RDFStore();
+		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Event);
+		return resources;
+    }
+    public List<Resource> listPlaces() {
+		RDFStore rdfs = new RDFStore();
+		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Place);
+		return resources;
+    }
 	
 	public String create() {
 		try {
@@ -160,34 +234,34 @@ public class PictureController implements Serializable {
 //			}
 			
 			//Save RDF
-			
-			//Get form values
-//			Map<String,String> params = (Map<String,String>) (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//			String depicts = params.get("depicts");
-//			String takenBy = params.get("takenBy");
-			
+
 			// create an empty RDF graph
 			Model m = ModelFactory.createDefaultModel();
 			// create an instance of Photo in Model m
 			Resource photoRes = m.createResource(Namespaces.getPhotoUri(current.getId()), SempicOnto.Photo);
-
+			//Assign album and owner id
 			photoRes.addLiteral(SempicOnto.albumId, current.getAlbum().getId());
 			photoRes.addLiteral(SempicOnto.ownerId, auth.currentUser().getId());
 
-			Resource newPerson = m.createResource(SempicOnto.Person);
-			newPerson.addLiteral(RDFS.label, depicts);
-			photoRes.addProperty(SempicOnto.depicts, newPerson);
+			//get depiction values from form (dog, cat, old, person, etc)
+			//add them to the picture
+			for (String s: depicts) {           
+				System.out.println(s); 
+				Resource newRes = m.createResource(s);
+				newRes.addLiteral(RDFS.label, s);
+				photoRes.addProperty(SempicOnto.depicts, newRes);
+			}
 			
+			//@TODO: manage taken by and also oter properties ?? (isFriendWith, etc)
 			Resource anotherPerson = m.createResource(SempicOnto.Person);
 			anotherPerson.addLiteral(RDFS.label, takenBy);
 			photoRes.addProperty(SempicOnto.takenBy, anotherPerson);
 
 			m.write(System.out, "turtle");
-			
-			
 
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureCreated"));
 			
+			recreatePagination();
 			return prepareCreate();
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -259,6 +333,7 @@ public class PictureController implements Serializable {
 	}
 
 	public DataModel getItems() {
+		
 //		if (items == null) {
 			items = getPagination().createPageDataModel();
 //		}

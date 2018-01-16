@@ -103,6 +103,7 @@ public class AlbumController implements Serializable {
 			current.setCreated(new Timestamp(System.currentTimeMillis()));
 			getFacade().create(current);
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AlbumCreated"));
+			recreatePagination();
 			return prepareCreate();
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -176,10 +177,9 @@ public class AlbumController implements Serializable {
 	}
 
 	public DataModel getItems() {
-//		if (items == null) {
-//			recreatePagination();
+		if (items == null) {
 			items = getPagination().createPageDataModel();
-//		}
+		}
 		return items;
 	}
 

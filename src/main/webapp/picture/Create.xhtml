@@ -27,11 +27,19 @@
                     <h:outputLabel value="#{bundle.CreatePictureLabel_filename}" for="name" />
 					<h:inputFile  id="file" value="#{pictureController.file}" />
 
-					
+					<br/>
+					<br/>
                     <h:outputLabel value="Depicts" for="depicts" />
-                    <h:inputText id="depicts" value="#{pictureController.depicts}" title="Depicts" />
+					<br/>
 					
+					<h:selectManyMenu id="depicts" value="#{pictureController.depicts}" class="multi">
+						<f:selectItems value="#{pictureController.listResources()}"  />
+					</h:selectManyMenu>
+					
+					<br/>
+					<br/>
                     <h:outputLabel value="takenBy" for="takenBy" />
+					<br/>
                     <h:inputText id="takenBy" value="#{pictureController.takenBy}" title="takenBy" />
 					
 					
