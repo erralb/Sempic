@@ -182,9 +182,37 @@ public class RDFStore {
                 + "FILTER (?p1 IN (<" + SempicOnto.depicts + ">,<" + SempicOnto.takenIn + ">,<" + SempicOnto.takenBy + ">)) "
                 + "}"
                 + "}";
+		System.out.println(s);
         Model m = cnx.queryConstruct(s);
         return m.getResource(pUri);
     }
+
+	public RDFConnection getCnx() {
+		return cnx;
+	}
+	
+	public Model getPhotoModel(long id){
+		
+        String pUri = Namespaces.getPhotoUri(id);
+
+        String s = "CONSTRUCT {"
+                + "<" + pUri + "> ?p ?o . "
+                + "<" + pUri + "> ?p1 ?o1 . "
+                + "?o1 <" + RDFS.label + "> ?o2 . "
+                + "} "
+                + "WHERE { "
+                + "<" + pUri + "> ?p ?o . "
+                + "OPTIONAL {"
+                + "<" + pUri + "> ?p1 ?o1 ."
+                + "?o1 <" + RDFS.label + "> ?o2 ."
+                + "FILTER (?p1 IN (<" + SempicOnto.depicts + ">,<" + SempicOnto.takenIn + ">,<" + SempicOnto.takenBy + ">)) "
+                + "}"
+                + "}";
+        Model m = cnx.queryConstruct(s);
+		
+		return m;
+		
+	}
 
     public static void main(String[] args) {
         RDFStore s = new RDFStore();
