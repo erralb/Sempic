@@ -337,15 +337,6 @@
     
 
 
-    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Date -->
-
-    <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Date">
-        <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time"/>
-        <rdfs:label>Date</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Depiction -->
 
     <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Depiction">
@@ -444,15 +435,6 @@
     
 
 
-    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Hours -->
-
-    <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Hours">
-        <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time"/>
-        <rdfs:label>Hours</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#House -->
 
     <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#House">
@@ -521,15 +503,6 @@
     <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Man">
         <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <rdfs:label>Man</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Minutes -->
-
-    <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Minutes">
-        <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time"/>
-        <rdfs:label>Minutes</rdfs:label>
     </owl:Class>
     
 
@@ -723,29 +696,11 @@
     
 
 
-    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time -->
-
-    <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time">
-        <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Depiction"/>
-        <rdfs:label>Time</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Toad -->
 
     <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Toad">
         <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Amphibians"/>
         <rdfs:label>Toad</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Weather -->
-
-    <owl:Class rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Weather">
-        <rdfs:subClassOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time"/>
-        <rdfs:label>Weather</rdfs:label>
     </owl:Class>
     
 
@@ -853,18 +808,6 @@
             <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Invertebrate"/>
             <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Mammals"/>
             <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Reptile"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Animal"/>
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Event"/>
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Man"/>
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Photo"/>
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Place"/>
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Time"/>
-            <rdf:Description rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
