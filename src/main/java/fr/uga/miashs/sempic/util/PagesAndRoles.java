@@ -23,8 +23,8 @@ public enum PagesAndRoles {
     login("/login.xhtml" ),
     createUser("/create-user.xhtml"),
     test("/test.xhtml", Roles.USER),
-    users("/users/List.xhtml", Roles.USER),
-//    users("/users/List.xhtml", Roles.ADMIN)
+//    users("/users/List.xhtml", Roles.USER),
+    users("/users/List.xhtml", Roles.ADMIN)
 	;
     
     public String path;
