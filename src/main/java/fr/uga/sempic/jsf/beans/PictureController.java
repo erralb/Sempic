@@ -266,7 +266,6 @@ public class PictureController implements Serializable {
 		try {
 			getFacade().edit(current);
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureUpdated"));
-			recreatePagination();
 			return "View";
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));

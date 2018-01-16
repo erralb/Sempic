@@ -15,15 +15,30 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
+					
                     <h:outputLabel value="Album" for="name" />
 					<h:selectOneMenu value="#{pictureController.selected.album}">
 						<f:selectItems value="#{albumController.items}" var="album" itemLabel="#{album.name} (#{album.id})" />
 					</h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.EditPictureLabel_name}" for="name" />
-                    <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.EditPictureTitle_name}" />
 					
-                    <h:outputLabel value="#{bundle.EditPictureLabel_filename}" for="name" /> : 
-                    <h:outputText value="#{pictureController.selected.filename}" title="#{bundle.EditPictureLabel_filename}"/>
+                    <h:outputLabel value="#{bundle.CreatePictureLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{pictureController.selected.name}" title="#{bundle.CreatePictureTitle_name}" />
+					
+
+					<br/>
+					<br/>
+                    <h:outputLabel value="Depicts" for="depicts" />
+					<br/>
+					
+					<h:selectManyMenu id="depicts" value="#{pictureController.depicts}" class="multi">
+						<f:selectItems value="#{pictureController.listResources()}"  />
+					</h:selectManyMenu>
+					
+					<br/>
+					<br/>
+                    <h:outputLabel value="takenBy" for="takenBy" />
+					<br/>
+                    <h:inputText id="takenBy" value="#{pictureController.takenBy}" title="takenBy" />
 					
                 </h:panelGrid>
                 <h:commandLink action="#{pictureController.update}" value="#{bundle.EditPictureSaveLink}"/>

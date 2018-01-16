@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+		<ui:composition template="/template.xhtml">
+
+			<ui:define name="body">
+
+				<h:panelGroup rendered="#{not authManager.userConnected()}" >
+					Vous devez vous identifier ou créer un compte pour accéder à l'application
+				</h:panelGroup>
+				<h:panelGroup rendered="#{authManager.userConnected()}">
+					Vous n'avez pas les droits pour accéder à cette page. ( créer un compte avec admin@admin.com / admin / admin pour générer un compte avec le rôle administrateur)
+				</h:panelGroup>
+
+			</ui:define>
+
+        </ui:composition>
+
+		<br />
+		<h:link outcome="/albums/album/List" value="Show All Album Items"/>
+		<br />
+		<h:link outcome="/album/List" value="Show All Album Items"/>
+		<br />
+		<h:link outcome="/picture/List" value="Show All Picture Items"/>
+		<br />
+		<h:link outcome="/sempicUser/List" value="Show All SempicUser Items"/>
+		<br />
+		<h:link outcome="/album/List" value="Show All Album Items"/>
+		<br />
+		<h:link outcome="/picture/List" value="Show All Picture Items"/>
+	</body>
+
+</html>
