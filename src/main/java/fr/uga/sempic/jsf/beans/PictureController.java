@@ -250,6 +250,10 @@ public class PictureController implements Serializable {
 		resources.forEach(i -> {
 			selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
         });
+                //sort
+                selectItems.sort((o1, o2) -> {
+                    return o1.getLabel().compareTo(o2.getLabel());
+                });
 		//list to array
 		SelectItem[] selectItemsArray= selectItems.toArray(new SelectItem[selectItems.size()]);
 		//Create itemGroup and add elements
