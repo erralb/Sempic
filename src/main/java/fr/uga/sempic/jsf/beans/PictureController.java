@@ -236,7 +236,7 @@ public class PictureController implements Serializable {
 			resources = rdfs.listInstancesOf(res);
 			//Build List
 			resources.forEach(i -> {
-				selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).toString()));
+				selectItems.add(new SelectItem(i, i.toString()));
 			});
 		}
 		
