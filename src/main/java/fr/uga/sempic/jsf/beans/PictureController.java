@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -51,6 +52,8 @@ public class PictureController implements Serializable {
 	
 	private Part file;
 	
+	private Date date;
+	private String[] persons;
 	private String[] depicts;
 	private String takenBy;
 	
@@ -72,8 +75,26 @@ public class PictureController implements Serializable {
 	private fr.uga.miashs.sempic.model.datalayer.PictureFacade ejbFacade;
 	private PaginationHelper pagination;
 	private int selectedItemIndex;
+	private RDFStore rdfs;
 	
 	public PictureController() {
+	}
+	
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String[] getPersons() {
+		return persons;
+	}
+
+	public void setPersons(String[] persons) {
+		this.persons = persons;
 	}
 	
 	public String[] getDepicts() {
@@ -142,6 +163,18 @@ public class PictureController implements Serializable {
 	public String prepareView() {
 		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+		
+		
+		System.out.println("Here "+current.getId());
+		RDFStore rdfs = new RDFStore();
+//		Resource photo = rdfs.readPhoto(current.getId());
+		Model pModel = rdfs.getPhotoModel(current.getId());
+////			photo.getModel().write(System.out,"turtle");
+//////			 print the graph on the standard output
+//////			pRes.getModel().write(System.out);
+//		System.out.println(photo.toString());
+		System.out.println(pModel.toString());
+		
 		return "View";
 	}
 
@@ -160,10 +193,40 @@ public class PictureController implements Serializable {
 	}
 	
 	/**
+	 * Lists People
+	 * @return ArrayList<SelectItem> the items for f:selectItems in the views
+	 */
+    public ArrayList<SelectItem> rdfPeopleSelect() {
+		
+		rdfSelect = new ArrayList<SelectItem>();
+		rdfSelect.add(buildSelectItems("People",SempicOnto.Individuals));
+		return rdfSelect;
+		
+//		RDFStore rdfs = new RDFStore();
+//		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Individuals);
+//		//Build List
+//		ArrayList<SelectItem> selectItems = new ArrayList<SelectItem>();
+//		resources.forEach(i -> {
+//			selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
+//        });
+//		//list to array
+//		SelectItem[] selectItemsArray= selectItems.toArray(new SelectItem[selectItems.size()]);
+//		//Create itemGroup and add elements
+//		SelectItemGroup itemGroup = new SelectItemGroup("Individuals");
+//		itemGroup.setSelectItems(selectItemsArray);
+//		
+//		rdfSelect = new ArrayList<SelectItem>();
+//		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal));
+//		
+//		return selectItems;
+		
+    }
+	
+	/**
 	 * Lists depiction resources
 	 * @return ArrayList<SelectItem> the items for f:selectItems in the views
 	 */
-    public ArrayList<SelectItem> listResources() {
+    public ArrayList<SelectItem> rdfContextSelect() {
 		rdfSelect = new ArrayList<SelectItem>();
 		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal));
 		rdfSelect.add(buildSelectItems("Person",SempicOnto.Person));
@@ -182,9 +245,6 @@ public class PictureController implements Serializable {
 		//Get subclasses
 		RDFStore rdfs = new RDFStore();
 		List<Resource> resources = rdfs.listSubClassesOf(res);
-        resources.forEach(i -> {
-			new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString());
-        });
 		//Build List
 		ArrayList<SelectItem> selectItems = new ArrayList<SelectItem>();
 		resources.forEach(i -> {
@@ -223,6 +283,7 @@ public class PictureController implements Serializable {
 //			}
 			
 			//Save RDF
+			RDFStore rdfs = new RDFStore();
 			// create an empty RDF graph
 			Model m = ModelFactory.createDefaultModel();
 			// create an instance of Photo in Model m
@@ -240,17 +301,23 @@ public class PictureController implements Serializable {
 				photoRes.addProperty(SempicOnto.depicts, newRes);
 			}
 			
-			//@TODO: manage taken by and also oter properties ?? (isFriendWith, etc)
-			Resource anotherPerson = m.createResource(SempicOnto.Person);
-			anotherPerson.addLiteral(RDFS.label, takenBy);
-			photoRes.addProperty(SempicOnto.takenBy, anotherPerson);
+//			//@TODO: manage taken by and also oter properties ?? (isFriendWith, etc)
+//			Resource anotherPerson = m.createResource(SempicOnto.Person);
+//			anotherPerson.addLiteral(RDFS.label, takenBy);
+//			photoRes.addProperty(SempicOnto.takenBy, anotherPerson);
 
 			m.write(System.out, "turtle");
+			
+			rdfs.saveModel(m);
+			
 
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureCreated"));
 			
 			recreatePagination();
+			recreateModel();
+			
 			return prepareCreate();
+			
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
 			return null;
@@ -306,6 +373,9 @@ public class PictureController implements Serializable {
 			String filename = current.getFilename();
 			Path fileToDeletePath = Paths.get(ctx.getInitParameter("upload.location")+File.separator+filename);
 			Files.delete(fileToDeletePath);
+			//delete RDF
+
+			rdfs.deleteModel(rdfs.getPhotoModel(current.getId()));
 
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureDeleted"));
 		} catch (Exception e) {

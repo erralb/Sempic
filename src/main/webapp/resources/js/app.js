@@ -1,5 +1,13 @@
 $( document ).ready(function(){
 	
+   $(".datepicker").datepicker({
+      dateFormat: 'dd MM, yy',
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "1960:2018"
+   });
+	
+	//I wanted to make the select searchable, but there is a conflict with JSF and the generated DOM id
 	$('.multi').multiSelect({
 //	selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Dog, Person, etc'>",
 //	selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Dog, Person, etc'>",

@@ -13,10 +13,7 @@
 			<ui:define name="body">
 
 				<h:panelGroup rendered="#{not authManager.userConnected()}" >
-					Vous devez vous identifier ou créer un compte pour accéder à l'application
-				</h:panelGroup>
-				<h:panelGroup rendered="#{authManager.userConnected()}">
-					Vous n'avez pas les droits pour accéder à cette page. ( créer un compte avec admin@admin.com / admin / admin pour générer un compte avec le rôle administrateur)
+					Vous devez vous identifier ou créer un compte pour accéder à l'application. ( créer un compte avec admin@admin.com / admin / admin pour générer un compte avec le rôle administrateur)
 				</h:panelGroup>
 
 				<br />
