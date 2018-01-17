@@ -130,6 +130,7 @@ public class RDFStore {
                 + "?s <" + RDFS.subClassOf + "> <" + c.getURI() + "> ."
                 + "?s <" + RDFS.label + "> ?o ."
                 + "} ORDER BY ASC(?o)");
+		System.out.println(m);
         return m.listSubjects().toList();
     }
 
@@ -141,15 +142,19 @@ public class RDFStore {
      * @return
      */
     public List<Resource> listInstancesOf(Resource c) {
-		String query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-				+ "CONSTRUCT { "
-                + "?s rdf:type <" + c.getURI() + ">"
-                + "}"
+//PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+//Select ?s ?l
+//WHERE { ?s a <http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Individuals> ;
+//rdfs:label ?l  }
+		String query = 
+				"CONSTRUCT { ?s <" + RDFS.label + "> ?l . }"
 				+ "WHERE {"
-                + "?s rdf:type <" + c.getURI() + ">"
+                + "?s a <" + c.getURI() + "> ;"
+                + "<" + RDFS.label + "> ?l "
                 + "}";
-//		System.out.println(query);
+		System.out.println(query);
         Model m = cnx.queryConstruct(query);
+		System.out.println(m);
         return m.listSubjects().toList();
     }
 

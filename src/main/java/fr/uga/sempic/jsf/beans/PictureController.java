@@ -194,7 +194,7 @@ public class PictureController implements Serializable {
 	 */
     public ArrayList<SelectItem> rdfPeopleSelect() {
 		rdfSelect = new ArrayList<SelectItem>();
-		rdfSelect.add(buildSelectItems("People",SempicOnto.Individuals, true));
+		rdfSelect.add(buildSelectItems("People",SempicOnto.Person, true));
 		
 		return rdfSelect;
     }
@@ -222,7 +222,7 @@ public class PictureController implements Serializable {
 		//Get subclasses
 		RDFStore rdfs = new RDFStore();
 		List<Resource> resources;
-			ArrayList<SelectItem> selectItems= new ArrayList<SelectItem>();
+		ArrayList<SelectItem> selectItems= new ArrayList<SelectItem>();
 		if(! instances)
 		{
 			resources = rdfs.listSubClassesOf(res);
@@ -233,10 +233,11 @@ public class PictureController implements Serializable {
 		}
 		else
 		{
+			//@TODO: something is still wrong here, I can't extract the label from the resource
 			resources = rdfs.listInstancesOf(res);
 			//Build List
 			resources.forEach(i -> {
-				selectItems.add(new SelectItem(i, i.toString()));
+				selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
 			});
 		}
 		

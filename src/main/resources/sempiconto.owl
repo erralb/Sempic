@@ -793,6 +793,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Individuals"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
+        <isGirlfriendOf rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre"/>
         <hasName>Aude</hasName>
         <rdfs:label>Aude</rdfs:label>
     </owl:NamedIndividual>
