@@ -780,6 +780,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
         <hasFather rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Manu"/>
         <hasName>Artemis</hasName>
+        <rdfs:label>Artemis</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -793,6 +794,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
         <hasName>Aude</hasName>
+        <rdfs:label>Aude</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -806,6 +808,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
         <hasName>Carole</hasName>
+        <rdfs:label>Carole</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -815,6 +818,7 @@
     <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Flipper">
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Dolphin"/>
         <hasName>Flipper le dauphin</hasName>
+        <rdfs:label>Flipper le Dauphin</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -829,6 +833,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <isFriendWith rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Manu"/>
         <hasName>Jérôme</hasName>
+        <rdfs:label>Jérôme</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -842,6 +847,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
         <hasName>Julie</hasName>
+        <rdfs:label>Julie</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -855,6 +861,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Man"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <hasName>Manu</hasName>
+        <rdfs:label>Manu</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -864,6 +871,7 @@
     <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Medor">
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Dog"/>
         <hasName>Medor</hasName>
+        <rdfs:label>Medor</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -877,6 +885,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Man"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <hasName>Nicolas</hasName>
+        <rdfs:label>Nicolas</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -890,6 +899,7 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Man"/>
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <hasName>Pierre</hasName>
+        <rdfs:label>Pierre</rdfs:label>
     </owl:NamedIndividual>
     
 

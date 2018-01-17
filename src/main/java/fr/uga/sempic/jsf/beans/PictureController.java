@@ -16,11 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -52,7 +48,7 @@ public class PictureController implements Serializable {
 	
 	private Part file;
 	
-	private Date date;
+	private String date;
 	private String[] persons;
 	private String[] depicts;
 	private String takenBy;
@@ -81,12 +77,12 @@ public class PictureController implements Serializable {
 	}
 	
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(String date) {
+			this.date = date;
 	}
 
 	public String[] getPersons() {
@@ -197,29 +193,10 @@ public class PictureController implements Serializable {
 	 * @return ArrayList<SelectItem> the items for f:selectItems in the views
 	 */
     public ArrayList<SelectItem> rdfPeopleSelect() {
-		
 		rdfSelect = new ArrayList<SelectItem>();
-		rdfSelect.add(buildSelectItems("People",SempicOnto.Individuals));
+		rdfSelect.add(buildSelectItems("People",SempicOnto.Individuals, true));
+		
 		return rdfSelect;
-		
-//		RDFStore rdfs = new RDFStore();
-//		List<Resource> resources = rdfs.listSubClassesOf(SempicOnto.Individuals);
-//		//Build List
-//		ArrayList<SelectItem> selectItems = new ArrayList<SelectItem>();
-//		resources.forEach(i -> {
-//			selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
-//        });
-//		//list to array
-//		SelectItem[] selectItemsArray= selectItems.toArray(new SelectItem[selectItems.size()]);
-//		//Create itemGroup and add elements
-//		SelectItemGroup itemGroup = new SelectItemGroup("Individuals");
-//		itemGroup.setSelectItems(selectItemsArray);
-//		
-//		rdfSelect = new ArrayList<SelectItem>();
-//		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal));
-//		
-//		return selectItems;
-		
     }
 	
 	/**
@@ -228,9 +205,9 @@ public class PictureController implements Serializable {
 	 */
     public ArrayList<SelectItem> rdfContextSelect() {
 		rdfSelect = new ArrayList<SelectItem>();
-		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal));
-		rdfSelect.add(buildSelectItems("Person",SempicOnto.Person));
-		rdfSelect.add(buildSelectItems("Place",SempicOnto.Place));
+		rdfSelect.add(buildSelectItems("Animals",SempicOnto.Animal, false));
+		rdfSelect.add(buildSelectItems("Person",SempicOnto.Person, false));
+		rdfSelect.add(buildSelectItems("Place",SempicOnto.Place, false));
 		return rdfSelect;
     }
 	
@@ -240,20 +217,33 @@ public class PictureController implements Serializable {
 	 * @param res the resource to add
 	 * @return SelectItemGroup
 	 */
-	public SelectItemGroup buildSelectItems(String groupName, Resource res)
+	public SelectItemGroup buildSelectItems(String groupName, Resource res, boolean instances)
 	{
 		//Get subclasses
 		RDFStore rdfs = new RDFStore();
-		List<Resource> resources = rdfs.listSubClassesOf(res);
-		//Build List
-		ArrayList<SelectItem> selectItems = new ArrayList<SelectItem>();
-		resources.forEach(i -> {
-			selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
-        });
-                //sort
-                selectItems.sort((o1, o2) -> {
-                    return o1.getLabel().compareTo(o2.getLabel());
-                });
+		List<Resource> resources;
+			ArrayList<SelectItem> selectItems= new ArrayList<SelectItem>();
+		if(! instances)
+		{
+			resources = rdfs.listSubClassesOf(res);
+			//Build List
+			resources.forEach(i -> {
+				selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).getLiteral().toString()));
+			});
+		}
+		else
+		{
+			resources = rdfs.listInstancesOf(res);
+			//Build List
+			resources.forEach(i -> {
+				selectItems.add(new SelectItem(i, i.getProperty(RDFS.label).toString()));
+			});
+		}
+		
+		//sort
+		selectItems.sort((o1, o2) -> {
+			return o1.getLabel().compareTo(o2.getLabel());
+		});
 		//list to array
 		SelectItem[] selectItemsArray= selectItems.toArray(new SelectItem[selectItems.size()]);
 		//Create itemGroup and add elements

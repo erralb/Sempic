@@ -15,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -132,6 +133,26 @@ public class RDFStore {
         return m.listSubjects().toList();
     }
 
+    /**
+     * Retieves all instances of a class.
+	 * To be selected classes must have the property rdfs:label instanciated
+     *
+     * @param c A named class (the resource cannot be annonymous)
+     * @return
+     */
+    public List<Resource> listInstancesOf(Resource c) {
+		String query = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+				+ "CONSTRUCT { "
+                + "?s rdf:type <" + c.getURI() + ">"
+                + "}"
+				+ "WHERE {"
+                + "?s rdf:type <" + c.getURI() + ">"
+                + "}";
+//		System.out.println(query);
+        Model m = cnx.queryConstruct(query);
+        return m.listSubjects().toList();
+    }
+
     
     public List<Resource> createAnonInstances(List<Resource> classes) {
         Model m = ModelFactory.createDefaultModel();
@@ -184,6 +205,7 @@ public class RDFStore {
                 + "}";
 		System.out.println(s);
         Model m = cnx.queryConstruct(s);
+		
         return m.getResource(pUri);
     }
 
