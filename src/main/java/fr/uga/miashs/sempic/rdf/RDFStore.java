@@ -20,6 +20,7 @@ import org.apache.jena.query.ReadWrite;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.rdfconnection.RDFConnectionFactory;
@@ -210,7 +211,7 @@ public class RDFStore {
                 + "}";
 //		System.out.println("Here in readPhoto in RDFStore "+s);
         Model m = cnx.queryConstruct(s);
-		System.out.println("Here in readPhoto in RDFStore "+m);
+//		System.out.println("Here in readPhoto in RDFStore "+m);
 		
         return m.getResource(pUri);
     }
@@ -244,26 +245,40 @@ public class RDFStore {
 
     public static void main(String[] args) {
         RDFStore s = new RDFStore();
+		
+//		Model m = ModelFactory.createDefaultModel();
+//		Resource photoRes = m.createResource(Namespaces.getPhotoUri(1551), SempicOnto.Photo);
+//		Resource photoRes = s.readPhoto(1601);
+		Model m = s.getPhotoModel(1601);
+		System.out.println(m);
+//		ResIterator iter = m.listSubjectsWithProperty(SempicOnto.inThePicture);
+//		while (iter.hasNext()) {
+//			Resource r = iter.nextResource();
+//			System.out.println(r);
+//		}
+		
+//		System.out.println("Here : "+photoRes.getProperty(SempicOnto.takenBy).getObject());
+//		System.out.println("Here : "+photoRes.getProperty(SempicOnto.depicts).getProperty(RDFS.label).getLiteral().toString());
 
-        Resource pRes = s.createPhoto(1, 1, 1);
+//        Resource pRes = s.createPhoto(1, 1, 1);
+//
+//        Model m = ModelFactory.createDefaultModel();
+//        Resource newAnimal = m.createResource(SempicOnto.Animal);
+//        newAnimal.addLiteral(RDFS.label, "Medor");
+////        m.add(pRes, SempicOnto.depicts, newAnimal);
+//        m.write(System.out, "turtle");
+//
+//        //s.deleteModel(m);
+//        //s.cnx.load(m);
+//        List<Resource> classes = s.listSubClassesOf(SempicOnto.Depiction);
+//        classes.forEach(c -> {System.out.println(c);});
+//
+//        List<Resource> instances = s.createAnonInstances(classes);
+//        instances.forEach(i -> {
+//            System.out.println(i.getProperty(RDFS.label));
+//        });
 
-        Model m = ModelFactory.createDefaultModel();
-        Resource newAnimal = m.createResource(SempicOnto.Animal);
-        newAnimal.addLiteral(RDFS.label, "Medor");
-//        m.add(pRes, SempicOnto.depicts, newAnimal);
-        m.write(System.out, "turtle");
-
-        //s.deleteModel(m);
-        //s.cnx.load(m);
-        List<Resource> classes = s.listSubClassesOf(SempicOnto.Depiction);
-        classes.forEach(c -> {System.out.println(c);});
-
-        List<Resource> instances = s.createAnonInstances(classes);
-        instances.forEach(i -> {
-            System.out.println(i.getProperty(RDFS.label));
-        });
-
-        //s.readPhoto(1).getModel().write(System.out,"turtle");
+//        s.readPhoto(1551).getModel().write(System.out,"turtle");
         // print the graph on the standard output
         //pRes.getModel().write(System.out);
     }

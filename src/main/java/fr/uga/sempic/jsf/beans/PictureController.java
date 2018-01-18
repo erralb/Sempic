@@ -199,15 +199,14 @@ public class PictureController implements Serializable {
 		
 		System.out.println("Here "+current.getId());
 		
-//		Resource photo = rdfs.readPhoto(current.getId());
-		Model pModel = rdfs.getPhotoModel(current.getId());
-////			photo.getModel().write(System.out,"turtle");
-//////			 print the graph on the standard output
-//////			pRes.getModel().write(System.out);
-//		System.out.println(photo.toString());
-//		rdfResources = pModel.listSubjects().toList();
-		rdfResources = pModel.toString();
-		System.out.println(pModel.getGraph().toString());
+		Resource photoRes = rdfs.readPhoto(current.getId());
+//		rdfResources = "inThePicture "+photoRes.getProperty(SempicOnto.inThePicture).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+//		rdfResources += "Depicts "+photoRes.getProperty(SempicOnto.depicts).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+//		rdfResources += "takenBy "+photoRes.getProperty(SempicOnto.takenBy).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+//		rdfResources += "takenIn "+photoRes.getProperty(SempicOnto.takenIn).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+//		rdfResources += "takenWhen "+photoRes.getProperty(SempicOnto.takenWhen).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+
+		rdfResources = rdfs.getPhotoModel(current.getId()).toString();
 		
 		return "View";
 	}
