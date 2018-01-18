@@ -48,12 +48,63 @@ public class PictureController implements Serializable {
 	
 	private Part file;
 	
-	private String date;
+	private Resource rdfPhoto;
+	public Resource getRdfPhoto() {
+		return rdfPhoto;
+	}
+	public void setRdfPhoto(Resource rdfPhoto) {
+		this.rdfPhoto = rdfPhoto;
+	}
+	
+	private String rdfResources;
+	public String getRdfResources() {
+		return rdfResources;
+	}
+	public void setRdfResources(String rdfResources) {
+		this.rdfResources = rdfResources;
+	}
+	
+	private RDFStore rdfs = new RDFStore();
 	private String[] persons;
+	private String[] places;
 	private String[] depicts;
 	private String takenBy;
-	
+	private String takenIn;
+	private String takenWhen;
+
 	private ArrayList<SelectItem> rdfSelect;
+	
+    @Inject
+    private AuthManager auth;
+	
+	@EJB
+	private fr.uga.miashs.sempic.model.datalayer.PictureFacade ejbFacade;
+	private PaginationHelper pagination;
+	private int selectedItemIndex;
+	
+	public PictureController() {
+	}
+	
+	public String[] getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(String[] places) {
+		this.places = places;
+	}
+	
+	public RDFStore getRdfs() {
+		return rdfs;
+	}
+	public void setRdfs(RDFStore rdfs) {
+		this.rdfs = rdfs;
+	}
+	public String getTakenIn() {
+		return takenIn;
+	}
+	public void setTakenIn(String takenIn) {
+		this.takenIn = takenIn;
+	}
 
 	public ArrayList<SelectItem> getRdfSelect() {
 		return rdfSelect;
@@ -63,26 +114,12 @@ public class PictureController implements Serializable {
 		this.rdfSelect = rdfSelect;
 	}
 
-	
-    @Inject
-    private AuthManager auth;
-	
-	@EJB
-	private fr.uga.miashs.sempic.model.datalayer.PictureFacade ejbFacade;
-	private PaginationHelper pagination;
-	private int selectedItemIndex;
-	private RDFStore rdfs;
-	
-	public PictureController() {
-	}
-	
-
-	public String getDate() {
-		return date;
+	public String getTakenWhen() {
+		return takenWhen;
 	}
 
-	public void setDate(String date) {
-			this.date = date;
+	public void setTakenWhen(String takenWhen) {
+			this.takenWhen = takenWhen;
 	}
 
 	public String[] getPersons() {
@@ -97,7 +134,6 @@ public class PictureController implements Serializable {
 //		if(depicts == null)
 //		{
 //			current = getSelected();
-//			RDFStore rdfs = new RDFStore();
 //			Resource photo = rdfs.readPhoto(current.getId());
 //			photo.getModel().write(System.out,"turtle");
 ////			 print the graph on the standard output
@@ -162,14 +198,16 @@ public class PictureController implements Serializable {
 		
 		
 		System.out.println("Here "+current.getId());
-		RDFStore rdfs = new RDFStore();
+		
 //		Resource photo = rdfs.readPhoto(current.getId());
 		Model pModel = rdfs.getPhotoModel(current.getId());
 ////			photo.getModel().write(System.out,"turtle");
 //////			 print the graph on the standard output
 //////			pRes.getModel().write(System.out);
 //		System.out.println(photo.toString());
-		System.out.println(pModel.toString());
+//		rdfResources = pModel.listSubjects().toList();
+		rdfResources = pModel.toString();
+		System.out.println(pModel.getGraph().toString());
 		
 		return "View";
 	}
@@ -189,13 +227,22 @@ public class PictureController implements Serializable {
 	}
 	
 	/**
+	 * Lists Places
+	 * @return ArrayList<SelectItem> the items for f:selectItems in the views
+	 */
+    public ArrayList<SelectItem> rdfPlaceSelect() {
+		rdfSelect = new ArrayList<SelectItem>();
+		rdfSelect.add(buildSelectItems("Places",SempicOnto.Place, true));
+		return rdfSelect;
+    }
+	
+	/**
 	 * Lists People
 	 * @return ArrayList<SelectItem> the items for f:selectItems in the views
 	 */
     public ArrayList<SelectItem> rdfPeopleSelect() {
 		rdfSelect = new ArrayList<SelectItem>();
 		rdfSelect.add(buildSelectItems("People",SempicOnto.Person, true));
-		
 		return rdfSelect;
     }
 	
@@ -220,7 +267,7 @@ public class PictureController implements Serializable {
 	public SelectItemGroup buildSelectItems(String groupName, Resource res, boolean instances)
 	{
 		//Get subclasses
-		RDFStore rdfs = new RDFStore();
+		
 		List<Resource> resources;
 		ArrayList<SelectItem> selectItems= new ArrayList<SelectItem>();
 		if(! instances)
@@ -278,7 +325,7 @@ public class PictureController implements Serializable {
 //			}
 			
 			//Save RDF
-			RDFStore rdfs = new RDFStore();
+			rdfs = new RDFStore();
 			// create an empty RDF graph
 			Model m = ModelFactory.createDefaultModel();
 			// create an instance of Photo in Model m
@@ -287,20 +334,34 @@ public class PictureController implements Serializable {
 			photoRes.addLiteral(SempicOnto.albumId, current.getAlbum().getId());
 			photoRes.addLiteral(SempicOnto.ownerId, auth.currentUser().getId());
 
-			//get depiction values from form (dog, cat, old, person, etc)
-			//add them to the picture
+			
+			//Individuals inThePicture (Pierre, Medor, etc.)
+			for (String s: persons) {           
+//				System.out.println(s); 
+				photoRes.addProperty(SempicOnto.inThePicture, m.getResource(s));
+			}
+
+			//Things depicted (Person, Animals, Building)
 			for (String s: depicts) {           
-				System.out.println(s); 
-				Resource newRes = m.createResource(s);
-				newRes.addLiteral(RDFS.label, s);
-				photoRes.addProperty(SempicOnto.depicts, newRes);
+//				System.out.println(s); 
+				photoRes.addProperty(SempicOnto.depicts, m.getResource(s));
 			}
 			
-//			//@TODO: manage taken by and also oter properties ?? (isFriendWith, etc)
+//			//takenBy : who took the picture
 //			Resource anotherPerson = m.createResource(SempicOnto.Person);
 //			anotherPerson.addLiteral(RDFS.label, takenBy);
-//			photoRes.addProperty(SempicOnto.takenBy, anotherPerson);
-
+			photoRes.addProperty(SempicOnto.takenBy, m.getResource(takenBy));
+//			
+			//takenIn : where was the picture taken
+//			Resource place = m.createResource(SempicOnto.Place);
+//			place.addLiteral(RDFS.label, takenIn);
+			photoRes.addProperty(SempicOnto.takenIn, m.getResource(takenIn));
+////			
+			//takenWhen : picture date
+//			Resource timestamp = m.createResource(SempicOnto.takenWhen);
+//			timestamp.addLiteral(RDFS.label, takenWhen);
+			photoRes.addProperty(SempicOnto.takenWhen, m.getResource(takenWhen));
+//
 			m.write(System.out, "turtle");
 			
 			rdfs.saveModel(m);

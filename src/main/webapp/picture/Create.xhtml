@@ -42,6 +42,14 @@
 					<h:selectManyMenu id="depicts" value="#{pictureController.depicts}" class="multi">
 						<f:selectItems value="#{pictureController.rdfContextSelect()}"  />
 					</h:selectManyMenu>
+
+					<br/>
+					<br/>
+                    <h:outputLabel value="Where was the picture taken?" for="places" />
+					<br/>
+					<h:selectManyMenu id="places" value="#{pictureController.places}" class="multi">
+						<f:selectItems value="#{pictureController.rdfPlaceSelect()}"  />
+					</h:selectManyMenu>
 					
 					<br/>
 					<br/>
@@ -53,9 +61,9 @@
 					
 					<br/>
 					<br/>
-                    <h:outputLabel value="When was the picture taken?" for="date" />
+                    <h:outputLabel value="When was the picture taken?" for="takenWhen" />
 					<br/>
-					<h:inputText id="date" value="#{pictureController.date}" class="datepicker" />
+					<h:inputText id="takenWhen" value="#{pictureController.takenWhen}" class="datepicker" />
 					
 					
                 </h:panelGrid>

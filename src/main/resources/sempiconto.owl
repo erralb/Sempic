@@ -83,6 +83,14 @@
     
 
 
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#inThePicture -->
+
+    <owl:ObjectProperty rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#inThePicture">
+        <rdfs:label>In the picture</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#isBoyfriendOf -->
 
     <owl:ObjectProperty rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#isBoyfriendOf">
@@ -168,6 +176,14 @@
         <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:label>has owner</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#takenWhen -->
+
+    <owl:DatatypeProperty rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#takenWhen">
+        <rdfs:label>Taken when</rdfs:label>
     </owl:DatatypeProperty>
     
 
@@ -824,6 +840,15 @@
     
 
 
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Grenoble -->
+
+    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Grenoble">
+        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#City"/>
+        <rdfs:label>Grenoble</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Jerome -->
 
     <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Jerome">
@@ -891,6 +916,24 @@
     
 
 
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Parc_Paul_Mistral -->
+
+    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Parc_Paul_Mistral">
+        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Park"/>
+        <rdfs:label>Parc Paul Mistral</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Paris -->
+
+    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Paris">
+        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#City"/>
+        <rdfs:label>Paris</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre -->
 
     <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre">
@@ -901,6 +944,33 @@
         <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
         <hasName>Pierre</hasName>
         <rdfs:label>Pierre</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#School -->
+
+    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#School">
+        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Building"/>
+        <rdfs:label>School</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre&apos;s_Garden -->
+
+    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre&apos;s_Garden">
+        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Garden"/>
+        <rdfs:label>Pierre&apos;s Garden</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre&apos;s_House -->
+
+    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Pierre&apos;s_House">
+        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#House"/>
+        <rdfs:label>Pierre&apos;s house</rdfs:label>
     </owl:NamedIndividual>
     
 

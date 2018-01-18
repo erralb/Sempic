@@ -208,8 +208,9 @@ public class RDFStore {
                 + "FILTER (?p1 IN (<" + SempicOnto.depicts + ">,<" + SempicOnto.takenIn + ">,<" + SempicOnto.takenBy + ">)) "
                 + "}"
                 + "}";
-		System.out.println(s);
+//		System.out.println("Here in readPhoto in RDFStore "+s);
         Model m = cnx.queryConstruct(s);
+		System.out.println("Here in readPhoto in RDFStore "+m);
 		
         return m.getResource(pUri);
     }

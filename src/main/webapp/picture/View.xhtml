@@ -29,6 +29,9 @@
 					
 					<img src="/BlarrePicavetSempic/ServePicture/#{pictureController.selected.filename}" />
 					
+					<br/>
+					<h:outputText value="#{pictureController.rdfResources}" title="Linked Resources"/><br/>
+					
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{pictureController.destroyAndView}" value="#{bundle.ViewPictureDestroyLink}"/>
