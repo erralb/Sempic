@@ -18,27 +18,25 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class SempicUserFacade extends AbstractFacade<SempicUser> {
 
-	@PersistenceContext(unitName = "NEWSEMPICPU")
-	private EntityManager em;
+    @PersistenceContext(unitName = "NEWSEMPICPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
-	public SempicUserFacade() {
-		super(SempicUser.class);
-	}
+    public SempicUserFacade() {
+        super(SempicUser.class);
+    }
 
     public SempicUser getByEmail(String email) {
         try {
-        return (SempicUser) 
-                getEntityManager().createQuery("SELECT u FROM SempicUser u "
-                                                + "WHERE u.email=:email")
-                .setParameter("email", email)
-                .getSingleResult();
-        }
-        catch (NoResultException e) {
+            return (SempicUser) getEntityManager().createQuery("SELECT u FROM SempicUser u "
+                    + "WHERE u.email=:email")
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
     }

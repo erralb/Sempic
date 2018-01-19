@@ -23,37 +23,37 @@ import javax.servlet.http.Part;
 @Stateless
 public class PictureFacade extends AbstractFacade<Picture> {
 
-	@PersistenceContext(unitName = "NEWSEMPICPU")
-	private EntityManager em;
-	
-	private Part file;
+    @PersistenceContext(unitName = "NEWSEMPICPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
-		
+    private Part file;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
     @Inject
     private AuthManager auth;
 
-	public PictureFacade() {
-		super(Picture.class);
-	}
-	
-	public void create(Picture entity) {
-		getEntityManager().persist(entity);
-		
-	}
-	
-	public List<Album> findAllByUser() {
-		Query q = em.createNamedQuery("Picture.findAllByUser");
-		q.setParameter("user", auth.currentUser() );
-		return q.getResultList();
-	}
-	
-	public List<Picture> findAllById(String ids) {
-		Query q = em.createQuery("SELECT p FROM Picture p WHERE p.id IN ( "+ids+" )");
-		return q.getResultList();
-	}
-	
+    public PictureFacade() {
+        super(Picture.class);
+    }
+
+    public void create(Picture entity) {
+        getEntityManager().persist(entity);
+
+    }
+
+    public List<Album> findAllByUser() {
+        Query q = em.createNamedQuery("Picture.findAllByUser");
+        q.setParameter("user", auth.currentUser());
+        return q.getResultList();
+    }
+
+    public List<Picture> findAllById(String ids) {
+        Query q = em.createQuery("SELECT p FROM Picture p WHERE p.id IN ( " + ids + " )");
+        return q.getResultList();
+    }
+
 }

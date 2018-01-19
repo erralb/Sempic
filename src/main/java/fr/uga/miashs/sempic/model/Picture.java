@@ -38,134 +38,132 @@ import org.apache.jena.rdf.model.ModelFactory;
 @Table(name = "PICTURE")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Picture.findAll", query = "SELECT p FROM Picture p")
-	, @NamedQuery(name = "Picture.findAllByUser", query = "SELECT a FROM Picture a WHERE a.user = :user")
-	, @NamedQuery(name = "Picture.findAllById", query = "SELECT p FROM Picture p WHERE p.id IN ( :ids )")
-	, @NamedQuery(name = "Picture.findById", query = "SELECT p FROM Picture p WHERE p.id = :id")
-	, @NamedQuery(name = "Picture.findByAdded", query = "SELECT p FROM Picture p WHERE p.added = :added")
-	, @NamedQuery(name = "Picture.findByName", query = "SELECT p FROM Picture p WHERE p.name = :name")
+    @NamedQuery(name = "Picture.findAll", query = "SELECT p FROM Picture p")
+    , @NamedQuery(name = "Picture.findAllByUser", query = "SELECT a FROM Picture a WHERE a.user = :user")
+    , @NamedQuery(name = "Picture.findAllById", query = "SELECT p FROM Picture p WHERE p.id IN ( :ids )")
+    , @NamedQuery(name = "Picture.findById", query = "SELECT p FROM Picture p WHERE p.id = :id")
+    , @NamedQuery(name = "Picture.findByAdded", query = "SELECT p FROM Picture p WHERE p.added = :added")
+    , @NamedQuery(name = "Picture.findByName", query = "SELECT p FROM Picture p WHERE p.name = :name")
 })
 public class Picture implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	@Column(name = "ADDED")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(name = "ADDED")
     @Temporal(TemporalType.DATE)
-	private Date added;
-	@Size(max = 255)
+    private Date added;
+    @Size(max = 255)
     @Column(name = "NAME")
-	private String name;
-	
+    private String name;
+
     @Column(name = "FILENAME")
-	private String filename;
-	
-	@JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")
+    private String filename;
+
+    @JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")
     @ManyToOne
-	private Album album;
-	
-	@ManyToOne
-	private SempicUser user;
+    private Album album;
 
-	
-	@JoinTable(name = "ALBUM_PICTURE", joinColumns = {
-    	@JoinColumn(name = "PICTURES_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-    	@JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")})
+    @ManyToOne
+    private SempicUser user;
+
+    @JoinTable(name = "ALBUM_PICTURE", joinColumns = {
+        @JoinColumn(name = "PICTURES_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "ALBUM_ID", referencedColumnName = "ID")})
     @ManyToMany
-	private Collection<Album> albumCollection;
-	
-	
-	public Picture() {
-	}
+    private Collection<Album> albumCollection;
 
-	public Picture(Long id) {
-		this.id = id;
-	}
+    public Picture() {
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Picture(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public SempicUser getUser() {
-		return user;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setUser(SempicUser user) {
-		this.user = user;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Album getAlbum() {
-		return album;
-	}
+    public SempicUser getUser() {
+        return user;
+    }
 
-	public void setAlbum(Album album) {
-		this.album = album;
-	}
+    public void setUser(SempicUser user) {
+        this.user = user;
+    }
 
-	public Date getAdded() {
-		return added;
-	}
+    public Album getAlbum() {
+        return album;
+    }
 
-	public void setAdded(Date added) {
-		this.added = added;
-	}
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Date getAdded() {
+        return added;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getFilename() {
-		return filename;
-	}
+    public void setAdded(Date added) {
+        this.added = added;
+    }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@XmlTransient
-	public Collection<Album> getAlbumCollection() {
-		return albumCollection;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setAlbumCollection(Collection<Album> albumCollection) {
-		this.albumCollection = albumCollection;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Picture)) {
-			return false;
-		}
-		Picture other = (Picture) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @XmlTransient
+    public Collection<Album> getAlbumCollection() {
+        return albumCollection;
+    }
 
-	@Override
-	public String toString() {
-		return "fr.uga.miashs.sempic.model.Picture[ id=" + id + " ]";
-	}
-	
+    public void setAlbumCollection(Collection<Album> albumCollection) {
+        this.albumCollection = albumCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Picture)) {
+            return false;
+        }
+        Picture other = (Picture) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "fr.uga.miashs.sempic.model.Picture[ id=" + id + " ]";
+    }
+
 }

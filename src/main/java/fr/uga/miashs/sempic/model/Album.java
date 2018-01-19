@@ -36,103 +36,103 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "ALBUM")
 //@XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Album.findAll", query = "SELECT a FROM Album a")
-	, @NamedQuery(name = "Album.findAllByUser", query = "SELECT a FROM Album a WHERE a.user = :user")
-	, @NamedQuery(name = "Album.findById", query = "SELECT a FROM Album a WHERE a.id = :id")
-	, @NamedQuery(name = "Album.findByCreated", query = "SELECT a FROM Album a WHERE a.created = :created")
-	, @NamedQuery(name = "Album.findByName", query = "SELECT a FROM Album a WHERE a.name = :name")})
+    @NamedQuery(name = "Album.findAll", query = "SELECT a FROM Album a")
+    , @NamedQuery(name = "Album.findAllByUser", query = "SELECT a FROM Album a WHERE a.user = :user")
+    , @NamedQuery(name = "Album.findById", query = "SELECT a FROM Album a WHERE a.id = :id")
+    , @NamedQuery(name = "Album.findByCreated", query = "SELECT a FROM Album a WHERE a.created = :created")
+    , @NamedQuery(name = "Album.findByName", query = "SELECT a FROM Album a WHERE a.name = :name")})
 public class Album implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
+    private static final long serialVersionUID = 1L;
+    @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	@Column(name = "CREATED")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(name = "CREATED")
     @Temporal(TemporalType.TIMESTAMP)
-	private Date created;
-	@Size(max = 255)
+    private Date created;
+    @Size(max = 255)
     @Column(name = "NAME")
-	private String name;
-	@ManyToMany(mappedBy = "albumCollection")
-	private Collection<Picture> pictureCollection;
-	
-	@ManyToOne
-	private SempicUser user;
+    private String name;
+    @ManyToMany(mappedBy = "albumCollection")
+    private Collection<Picture> pictureCollection;
 
-	public SempicUser getUser() {
-		return user;
-	}
+    @ManyToOne
+    private SempicUser user;
 
-	public void setUser(SempicUser user) {
-		this.user = user;
-	}
+    public SempicUser getUser() {
+        return user;
+    }
 
-	public Album() {
-	}
+    public void setUser(SempicUser user) {
+        this.user = user;
+    }
 
-	public Album(Long id) {
-		this.id = id;
-	}
+    public Album() {
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Album(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Date getCreated() {
-		return created;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
+    public Date getCreated() {
+        return created;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@XmlTransient
-	public Collection<Picture> getPictureCollection() {
-		return pictureCollection;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPictureCollection(Collection<Picture> pictureCollection) {
-		this.pictureCollection = pictureCollection;
-	}
+    @XmlTransient
+    public Collection<Picture> getPictureCollection() {
+        return pictureCollection;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    public void setPictureCollection(Collection<Picture> pictureCollection) {
+        this.pictureCollection = pictureCollection;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Album)) {
-			return false;
-		}
-		Album other = (Album) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public String toString() {
-		return "fr.uga.miashs.sempic.model.Album[ id=" + id + " ]";
-	}
-	
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Album)) {
+            return false;
+        }
+        Album other = (Album) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "fr.uga.miashs.sempic.model.Album[ id=" + id + " ]";
+    }
+
 }

@@ -25,38 +25,36 @@ import javax.validation.constraints.*;
  */
 @Entity
 public class SempicUser implements Serializable {
-    
-    
+
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
-    
+
     @NotNull
-    @Pattern(regexp="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")"
+    @Pattern(regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")"
             + "@"
             + "(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}"
             + "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
-    
-    @Column(unique=true)
+
+    @Column(unique = true)
     private String email;
-    
+
     @NotNull
     private String lastname;
-    
+
     @NotNull
     private String firstname;
-    
+
     @NotNull
     private String passwordHash;
-    
+
     @NotNull
     private String salt;
-        
-    @ElementCollection(fetch=FetchType.EAGER)
+
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated
     private Set<Roles> roles;
-    
-    
+
     public SempicUser() {
         roles = Collections.singleton(Roles.USER);
     }
@@ -93,22 +91,21 @@ public class SempicUser implements Serializable {
         this.firstname = firstname;
     }
 
-    
     public void setPassword(String password) {
-        if (password==null) {
+        if (password == null) {
             return;
         }
         this.salt = SecurityUtil.generateSalt();
-        this.passwordHash = SecurityUtil.generateHash(password,salt);
+        this.passwordHash = SecurityUtil.generateHash(password, salt);
     }
-    
+
     public String getPassword() {
         return null;
     }
-    
+
     public boolean verifyPassword(String password) {
-        if (password!=null) {
-            return SecurityUtil.generateHash(password,salt).equals(passwordHash);
+        if (password != null) {
+            return SecurityUtil.generateHash(password, salt).equals(passwordHash);
         }
         return false;
     }
@@ -120,7 +117,7 @@ public class SempicUser implements Serializable {
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;

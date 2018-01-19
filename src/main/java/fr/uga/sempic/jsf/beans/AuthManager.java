@@ -17,7 +17,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * @author Jerome David <jerome.david@univ-grenoble-alpes.fr>
@@ -82,11 +81,11 @@ public class AuthManager implements Serializable {
         }
         return "/index.xhtml?faces-redirect=true";
     }
-    
+
     public boolean userConnected() {
-        return connectedUser!=null;
+        return connectedUser != null;
     }
-    
+
     public SempicUser currentUser() {
         return connectedUser;
     }
@@ -99,16 +98,20 @@ public class AuthManager implements Serializable {
         return PagesAndRoles.login.path + "?faces-redirect=true";
     }
 
-    public boolean isAuthorized(String requestedPage) {       
+    public boolean isAuthorized(String requestedPage) {
         try {
             PagesAndRoles p = PagesAndRoles.fromPath(requestedPage);
-            if (p.allowedRoles==null) return true;
-            if (connectedUser==null) return false;
-            for (Roles r : p.allowedRoles) {
-            if (connectedUser.getRoles()!=null&&connectedUser.getRoles().contains(r)) {
+            if (p.allowedRoles == null) {
                 return true;
             }
-        }
+            if (connectedUser == null) {
+                return false;
+            }
+            for (Roles r : p.allowedRoles) {
+                if (connectedUser.getRoles() != null && connectedUser.getRoles().contains(r)) {
+                    return true;
+                }
+            }
         } catch (IllegalArgumentException e) {
             return true;
         }

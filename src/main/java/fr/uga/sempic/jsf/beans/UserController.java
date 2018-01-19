@@ -33,7 +33,7 @@ import javax.validation.ConstraintViolationException;
 public class UserController implements Serializable {
 
     private SempicUser selected;
-    
+
     @Inject
     private AuthManager auth;
 
@@ -43,8 +43,9 @@ public class UserController implements Serializable {
     public String create() {
         boolean createSuccessful = false;
         try {
-            if (selected.getFirstname().equals("admin") && selected.getLastname().equals("admin"))
+            if (selected.getFirstname().equals("admin") && selected.getLastname().equals("admin")) {
                 selected.setRoles(Collections.singleton(Roles.ADMIN));
+            }
             createSuccessful = dao.createAndCheck(selected);
         } catch (EJBException ex) {
             if (ex.getCause() instanceof ConstraintViolationException) {
@@ -58,27 +59,25 @@ public class UserController implements Serializable {
 
             }
         }
-        if (createSuccessful)
+        if (createSuccessful) {
             return "/index.xhtml?faces-redirect=true";
-        else
+        } else {
             return "/create-user.xhtml?faces-redirect=true&error=true";
+        }
     }
 
     public SempicUser getSelected() {
-        if (selected == null)
+        if (selected == null) {
             selected = new SempicUser();
+        }
         return selected;
     }
 
     public void setSelected(SempicUser selected) {
         this.selected = selected;
     }
-    
+
     public List<SempicUser> getUsers() {
         return dao.findAll();
     }
 }
-
-
-
-

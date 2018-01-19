@@ -56,9 +56,9 @@ public class AuthFilter implements Filter {
         String requestedPage = req.getRequestURI();
         String contextPath = req.getServletContext().getContextPath();
         requestedPage = requestedPage.substring(contextPath.length());
-        if (authManager!=null && authManager.isAuthorized(requestedPage)) {
+        if (authManager != null && authManager.isAuthorized(requestedPage)) {
             chain.doFilter(request, response);
-        } else if (requestedPage.equals(PagesAndRoles.login.path) || (authManager!=null && authManager.getConnectedUser() == null)) {
+        } else if (requestedPage.equals(PagesAndRoles.login.path) || (authManager != null && authManager.getConnectedUser() == null)) {
             authManager.setRequestPage(requestedPage);
             request.getRequestDispatcher(PagesAndRoles.login.path).forward(request, response);
         } else {

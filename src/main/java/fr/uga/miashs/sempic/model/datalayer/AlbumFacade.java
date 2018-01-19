@@ -21,25 +21,25 @@ import javax.persistence.Query;
 @Stateless
 public class AlbumFacade extends AbstractFacade<Album> {
 
-	@PersistenceContext(unitName = "NEWSEMPICPU")
-	private EntityManager em;
+    @PersistenceContext(unitName = "NEWSEMPICPU")
+    private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
-		
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
     @Inject
     private AuthManager auth;
 
-	public AlbumFacade() {
-		super(Album.class);
-	}
-	
-	public List<Album> findAllByUser() {
-		Query q = em.createNamedQuery("Album.findAllByUser");
-		q.setParameter("user", auth.currentUser() );
-		return q.getResultList();
-	}
-	
+    public AlbumFacade() {
+        super(Album.class);
+    }
+
+    public List<Album> findAllByUser() {
+        Query q = em.createNamedQuery("Album.findAllByUser");
+        q.setParameter("user", auth.currentUser());
+        return q.getResultList();
+    }
+
 }

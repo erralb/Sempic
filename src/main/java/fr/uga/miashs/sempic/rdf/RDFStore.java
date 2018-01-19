@@ -52,6 +52,7 @@ public class RDFStore {
 
     /**
      * Save the given model into the triple store.
+     *
      * @param m THe Jena model to be persisted
      */
     public void saveModel(Model m) {
@@ -63,6 +64,7 @@ public class RDFStore {
     /**
      * Delete the given model from the triple store. Be carreful: Blank nodes
      * are replaced by variables
+     *
      * @param m the model to be deleted
      */
     public void deleteModel(Model m) {
@@ -108,7 +110,9 @@ public class RDFStore {
 
     /**
      * Delete all the statements where the resource appears as subject or object
-     * @param r The named resource to be deleted (the resource cannot be annonymous)
+     *
+     * @param r The named resource to be deleted (the resource cannot be
+     * annonymous)
      */
     public void deleteResource(Resource r) {
         if (r.isURIResource()) {
@@ -138,8 +142,8 @@ public class RDFStore {
     }
 
     /**
-     * Retieves all instances of a class.
-	 * To be selected classes must have the property rdfs:label instanciated
+     * Retieves all instances of a class. To be selected classes must have the
+     * property rdfs:label instanciated
      *
      * @param c A named class (the resource cannot be annonymous)
      * @return
@@ -149,9 +153,9 @@ public class RDFStore {
 //Select ?s ?l
 //WHERE { ?s a <http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Individuals> ;
 //rdfs:label ?l  }
-		String query = 
-				"CONSTRUCT { ?s <" + RDFS.label + "> ?l . }"
-				+ "WHERE {"
+        String query
+                = "CONSTRUCT { ?s <" + RDFS.label + "> ?l . }"
+                + "WHERE {"
                 + "?s a <" + c.getURI() + "> ;"
                 + "<" + RDFS.label + "> ?l "
                 + "}";
@@ -161,7 +165,6 @@ public class RDFStore {
         return m.listSubjects().toList();
     }
 
-    
     public List<Resource> createAnonInstances(List<Resource> classes) {
         Model m = ModelFactory.createDefaultModel();
         List<Resource> res = new ArrayList<>();
@@ -214,16 +217,16 @@ public class RDFStore {
 //		System.out.println("Here in readPhoto in RDFStore "+s);
         Model m = cnx.queryConstruct(s);
 //		System.out.println("Here in readPhoto in RDFStore "+m);
-		
+
         return m.getResource(pUri);
     }
 
-	public RDFConnection getCnx() {
-		return cnx;
-	}
-	
-	public Model getPhotoModel(long id){
-		
+    public RDFConnection getCnx() {
+        return cnx;
+    }
+
+    public Model getPhotoModel(long id) {
+
         String pUri = Namespaces.getPhotoUri(id);
 
         String s = "CONSTRUCT {"
@@ -240,33 +243,31 @@ public class RDFStore {
                 + "}"
                 + "}";
         Model m = cnx.queryConstruct(s);
-		
-		return m;
-		
-	}
-	
-	public static String getStatementHash(Statement stmt )
-	{
-		String uri = stmt.getObject().toString();
-		return uri.substring(uri.lastIndexOf("#") + 1);
-	}
+
+        return m;
+
+    }
+
+    public static String getStatementHash(Statement stmt) {
+        String uri = stmt.getObject().toString();
+        return uri.substring(uri.lastIndexOf("#") + 1);
+    }
 
     public static void main(String[] args) {
         RDFStore s = new RDFStore();
-		
-		Model m = ModelFactory.createDefaultModel();
-//		Resource photoRes = m.createResource(Namespaces.getPhotoUri(1551), SempicOnto.Photo);
-		Resource photoRes = s.readPhoto(1751);
-//		Model m = s.getPhotoModel(1751);
-		System.out.println(photoRes.getPropertyResourceValue(SempicOnto.inThePicture));
-		StmtIterator itr;
-		itr = photoRes.listProperties(SempicOnto.inThePicture);
-		while (itr.hasNext()) {
-			Statement stmt = itr.next();
-			String uri = stmt.getObject().toString();
-			System.out.println(uri.substring(uri.lastIndexOf("#") + 1));
-		}
 
+        Model m = ModelFactory.createDefaultModel();
+//		Resource photoRes = m.createResource(Namespaces.getPhotoUri(1551), SempicOnto.Photo);
+        Resource photoRes = s.readPhoto(1751);
+//		Model m = s.getPhotoModel(1751);
+        System.out.println(photoRes.getPropertyResourceValue(SempicOnto.inThePicture));
+        StmtIterator itr;
+        itr = photoRes.listProperties(SempicOnto.inThePicture);
+        while (itr.hasNext()) {
+            Statement stmt = itr.next();
+            String uri = stmt.getObject().toString();
+            System.out.println(uri.substring(uri.lastIndexOf("#") + 1));
+        }
 
 //		itr = photoRes.listProperties(SempicOnto.inThePicture);
 //		rdfResources += "<h3>inThePicture</h3>";
@@ -275,10 +276,8 @@ public class RDFStore {
 ////			rdfResources += itr.next().getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //			rdfResources += itr.next().toString()+"<br/>";
 //		}
-		
 //		System.out.println("Here : "+photoRes.getProperty(SempicOnto.takenBy).getObject());
 //		System.out.println("Here : "+photoRes.getProperty(SempicOnto.depicts).getProperty(RDFS.label).getLiteral().toString());
-
 //        Resource pRes = s.createPhoto(1, 1, 1);
 //
 //        Model m = ModelFactory.createDefaultModel();
@@ -296,7 +295,6 @@ public class RDFStore {
 //        instances.forEach(i -> {
 //            System.out.println(i.getProperty(RDFS.label));
 //        });
-
 //        s.readPhoto(1551).getModel().write(System.out,"turtle");
         // print the graph on the standard output
         //pRes.getModel().write(System.out);

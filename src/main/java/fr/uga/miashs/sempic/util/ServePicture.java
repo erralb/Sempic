@@ -1,4 +1,3 @@
-
 package fr.uga.miashs.sempic.util;
 
 import java.awt.Graphics;
@@ -34,89 +33,86 @@ public class ServePicture extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                response.setContentType("text/html;charset=UTF-8");
-        
-                ServletContext context = getServletContext();
-                
-                String imgFolder = context.getInitParameter("imgFolder");
-                String thumbFolder = context.getInitParameter("thumbFolder");
+        response.setContentType("text/html;charset=UTF-8");
 
-                String filename = imgFolder + request.getPathInfo();
-                File image = new File(filename);
-                if(!image.exists() || image.isDirectory()) { 
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        ServletContext context = getServletContext();
+
+        String imgFolder = context.getInitParameter("imgFolder");
+        String thumbFolder = context.getInitParameter("thumbFolder");
+
+        String filename = imgFolder + request.getPathInfo();
+        File image = new File(filename);
+        if (!image.exists() || image.isDirectory()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+
+        String extension = "";
+        int i = filename.lastIndexOf('.');
+        if (i > 0) {
+            extension = filename.substring(i + 1);
+        }
+
+        String width = request.getParameter("width");
+        String height = request.getParameter("height");
+        String crop = request.getParameter("crop");
+
+        if (width != null || height != null) {
+            String thumbFilename = thumbFolder + "/" + width + "x" + height + "-" + request.getPathInfo().substring(1);
+            File thumb = new File(thumbFilename);
+            if (!thumb.exists()) {
+
+                // crop the file
+                BufferedImage bimg = ImageIO.read(image);
+
+                int intWidth = (width != null) ? Integer.parseInt(width) : bimg.getWidth();
+                int intHeight = (int) (bimg.getHeight() * (((double) intWidth) / bimg.getWidth()));
+
+                if (intWidth >= bimg.getWidth() || intHeight >= bimg.getHeight()) {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "The specified width or height are greater than the original image");
+                    return;
                 }
-                
-                String extension = "";
-                int i = filename.lastIndexOf('.');
-                if (i > 0) extension = filename.substring(i+1);
-                
-                String width = request.getParameter("width");
-                String height = request.getParameter("height");
-                String crop = request.getParameter("crop");
-                
-                if(width != null || height != null)
-                {
-                    String thumbFilename = thumbFolder + "/" + width + "x" + height + "-" + request.getPathInfo().substring(1);
-                    File thumb = new File(thumbFilename);
-                    if(!thumb.exists()) { 
-                        
-                        // crop the file
-                        BufferedImage bimg = ImageIO.read(image);
-                        
-                        
-                        int intWidth = (width != null) ?  Integer.parseInt(width) : bimg.getWidth();
-                        int intHeight = (int) (bimg.getHeight() * (((double)intWidth) / bimg.getWidth()));
-                        
-                        if(intWidth >= bimg.getWidth() || intHeight >= bimg.getHeight()) 
-                        {
-                            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"The specified width or height are greater than the original image");
-                            return;
-                        }
-                        
+
 //                        int intHeight = (height != null) ?  Integer.parseInt(height) : bimg.getHeight();
 //                        BufferedImage img = bimg.getSubimage(0, 0, intWidth, intHeight);
 //                        BufferedImage copyOfImage = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
-                        Image img = bimg.getScaledInstance(intWidth, intHeight, Image.SCALE_FAST);
-                        BufferedImage copyOfImage = new BufferedImage(intWidth, intHeight, bimg.getType());
-                        
-                        
-                        Graphics g = copyOfImage.createGraphics();
-                        g.drawImage(img, 0, 0, null);
-                        g.dispose();
-                        
-                        thumb.getParentFile().mkdirs(); 
-                        thumb.createNewFile();
-                        ImageIO.write(copyOfImage, extension, thumb);
+                Image img = bimg.getScaledInstance(intWidth, intHeight, Image.SCALE_FAST);
+                BufferedImage copyOfImage = new BufferedImage(intWidth, intHeight, bimg.getType());
 
-                    }
-                    
-                    filename = thumbFilename;
-                }
-                
-                
-                // retrieve mimeType dynamically
-                String mime = context.getMimeType(filename);
-                if (mime == null) {
-                  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                  return;
-                }
-                
-                response.setContentType(mime);
-                File file = new File(filename);
-                response.setContentLength((int)file.length());
-				
-				System.out.println(file);
+                Graphics g = copyOfImage.createGraphics();
+                g.drawImage(img, 0, 0, null);
+                g.dispose();
 
-                try (FileInputStream in = new FileInputStream(file); OutputStream out = response.getOutputStream()) {
-                    // Copy the contents of the file to the output stream
-                    byte[] buf = new byte[1024];
-                    int count = 0;
-                    while ((count = in.read(buf)) >= 0) {
-                        out.write(buf, 0, count);
-                    }
-                }
-        
+                thumb.getParentFile().mkdirs();
+                thumb.createNewFile();
+                ImageIO.write(copyOfImage, extension, thumb);
+
+            }
+
+            filename = thumbFilename;
+        }
+
+        // retrieve mimeType dynamically
+        String mime = context.getMimeType(filename);
+        if (mime == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
+        response.setContentType(mime);
+        File file = new File(filename);
+        response.setContentLength((int) file.length());
+
+        System.out.println(file);
+
+        try (FileInputStream in = new FileInputStream(file); OutputStream out = response.getOutputStream()) {
+            // Copy the contents of the file to the output stream
+            byte[] buf = new byte[1024];
+            int count = 0;
+            while ((count = in.read(buf)) >= 0) {
+                out.write(buf, 0, count);
+            }
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -65,8 +65,6 @@ public class PictureStore {
         }
         return Files.newInputStream(p, StandardOpenOption.READ);
     }
-    
-    
 
     public void storePicture(Path picPath, InputStream data) throws IOException {
         picPath = getAbsolutePath(pictureStore, picPath);
@@ -78,8 +76,7 @@ public class PictureStore {
         Path originalP = getAbsolutePath(pictureStore, picPath);
         try {
             Files.deleteIfExists(originalP);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try {
@@ -119,8 +116,8 @@ public class PictureStore {
             }
         });
     }
-    
-    public static long  copy(InputStream source, OutputStream sink) throws IOException {
+
+    public static long copy(InputStream source, OutputStream sink) throws IOException {
         long nread = 0L;
         byte[] buf = new byte[8192];
         int n;
