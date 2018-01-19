@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +33,6 @@ import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -84,6 +81,7 @@ public class PictureController implements Serializable {
     private ArrayList<SelectItem> rdfSelect;
 
     private String ids = "";
+    private String nopics = "";
 
     @Inject
     private AuthManager auth;
@@ -96,6 +94,14 @@ public class PictureController implements Serializable {
     public PictureController() {
     }
 
+	public String getNopics() {
+		return nopics;
+	}
+
+	public void setNopics(String nopics) {
+		this.nopics = nopics;
+	}
+	
     public String getIds() {
         return ids;
     }
@@ -418,18 +424,23 @@ public class PictureController implements Serializable {
             //Search picture IDs linked with selected resource
             ids = "";
             setIDs(SempicOnto.inThePicture, persons);
-            setIDs(SempicOnto.inThePicture, depicts);
-            setIDs(SempicOnto.inThePicture, takenIn);
-            setIDs(SempicOnto.inThePicture, takenBy);
+            setIDs(SempicOnto.depicts, depicts);
+            setIDs(SempicOnto.takenIn, takenIn);
+            setIDs(SempicOnto.takenBy, takenBy);
 
+			
+			nopics = "";
             //if some IDs were found, launch an SQL query and assign them to items
-            System.out.println(ids);
             if (!ids.isEmpty()) {
+            System.out.println("Here ids : "+ids);
                 ids = ids.substring(0, ids.length() - 1); //remove last ,
                 items = new ListDataModel(getFacade().findAllById(ids));//get items
-            } else {
-                items = null;
             }
+			else
+			{
+				nopics = "No pictures found";
+				items = null;
+			}
 
             return "List";
 
@@ -460,7 +471,7 @@ public class PictureController implements Serializable {
             }
             query += ")}";
 
-            //		System.out.println("Here query : "+query);
+            System.out.println("Here query : "+query);
             rdfs.getCnx().querySelect(query, (qs) -> {
                 Resource subject = qs.getResource("p");
                 String uri = subject.toString();

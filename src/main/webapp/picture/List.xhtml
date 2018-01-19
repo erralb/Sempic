@@ -59,6 +59,8 @@
 				<h:commandLink action="#{pictureController.prepareCreate}" value="#{bundle.ListPictureCreateLink}"/>
 				
 				<hr/>
+				<h:outputText value="#{pictureController.nopics}"/>
+				<hr/>
 				
 				<h:panelGroup id="messagePanel" layout="block">
 					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
