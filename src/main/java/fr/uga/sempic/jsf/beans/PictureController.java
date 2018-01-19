@@ -526,6 +526,7 @@ public class PictureController implements Serializable {
 	public String destroy() {
 		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+		rdfs.deleteModel(rdfs.getPhotoModel(current.getId()));
 		performDestroy();
 		recreatePagination();
 		recreateModel();
