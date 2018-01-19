@@ -36,6 +36,7 @@ import javax.servlet.http.Part;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDFS;
 
@@ -419,6 +420,42 @@ public class PictureController implements Serializable {
 	public String prepareEdit() {
 		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+		
+		Resource photoRes = rdfs.readPhoto(current.getId());
+		
+		StmtIterator itr;
+		rdfResources = "";
+		
+		itr = photoRes.listProperties(SempicOnto.inThePicture);
+		List<Statement> itrList = itr.toList();
+		persons = new String[itrList.size()];
+		int i = 0;
+		while(itr.hasNext())
+		{
+			persons[i] = itr.next().toString();
+		}
+		System.out.println(persons);
+		itr = photoRes.listProperties(SempicOnto.depicts);
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.takenIn);
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.takenBy);
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.takenWhen);
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		
 		return "Edit";
 	}
 
