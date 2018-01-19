@@ -22,6 +22,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.rdfconnection.RDFConnection;
 import org.apache.jena.rdfconnection.RDFConnectionFactory;
 import org.apache.jena.sparql.core.Var;
@@ -242,19 +244,36 @@ public class RDFStore {
 		return m;
 		
 	}
+	
+	public static String getStatementHash(Statement stmt )
+	{
+		String uri = stmt.getObject().toString();
+		return uri.substring(uri.lastIndexOf("#") + 1);
+	}
 
     public static void main(String[] args) {
         RDFStore s = new RDFStore();
 		
-//		Model m = ModelFactory.createDefaultModel();
+		Model m = ModelFactory.createDefaultModel();
 //		Resource photoRes = m.createResource(Namespaces.getPhotoUri(1551), SempicOnto.Photo);
-//		Resource photoRes = s.readPhoto(1601);
-		Model m = s.getPhotoModel(1601);
-		System.out.println(m);
-//		ResIterator iter = m.listSubjectsWithProperty(SempicOnto.inThePicture);
-//		while (iter.hasNext()) {
-//			Resource r = iter.nextResource();
-//			System.out.println(r);
+		Resource photoRes = s.readPhoto(1751);
+//		Model m = s.getPhotoModel(1751);
+//		System.out.println(m);
+		StmtIterator itr;
+		itr = photoRes.listProperties(SempicOnto.inThePicture);
+		while (itr.hasNext()) {
+			Statement stmt = itr.next();
+			String uri = stmt.getObject().toString();
+			System.out.println(uri.substring(uri.lastIndexOf("#") + 1));
+		}
+
+
+//		itr = photoRes.listProperties(SempicOnto.inThePicture);
+//		rdfResources += "<h3>inThePicture</h3>";
+//		while(itr.hasNext())
+//		{
+////			rdfResources += itr.next().getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+//			rdfResources += itr.next().toString()+"<br/>";
 //		}
 		
 //		System.out.println("Here : "+photoRes.getProperty(SempicOnto.takenBy).getObject());

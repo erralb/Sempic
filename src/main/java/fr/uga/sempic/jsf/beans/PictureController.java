@@ -36,6 +36,7 @@ import javax.servlet.http.Part;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDFS;
 
 @ManagedBean
@@ -68,8 +69,8 @@ public class PictureController implements Serializable {
 	private String[] persons;
 	private String[] places;
 	private String[] depicts;
-	private String takenBy;
-	private String takenIn;
+	private String[] takenBy;
+	private String[] takenIn;
 	private String takenWhen;
 
 	private ArrayList<SelectItem> rdfSelect;
@@ -99,10 +100,10 @@ public class PictureController implements Serializable {
 	public void setRdfs(RDFStore rdfs) {
 		this.rdfs = rdfs;
 	}
-	public String getTakenIn() {
+	public String[] getTakenIn() {
 		return takenIn;
 	}
-	public void setTakenIn(String takenIn) {
+	public void setTakenIn(String[] takenIn) {
 		this.takenIn = takenIn;
 	}
 
@@ -149,11 +150,11 @@ public class PictureController implements Serializable {
 		this.depicts = depicts;
 	}
 
-	public String getTakenBy() {
+	public String[] getTakenBy() {
 		return takenBy;
 	}
 
-	public void setTakenBy(String takenBy) {
+	public void setTakenBy(String[] takenBy) {
 		this.takenBy = takenBy;
 	}
 
@@ -196,17 +197,57 @@ public class PictureController implements Serializable {
 		current = (Picture) getItems().getRowData();
 		selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
 		
-		
-		System.out.println("Here "+current.getId());
-		
+//		System.out.println("Here "+current.getId());
 		Resource photoRes = rdfs.readPhoto(current.getId());
+		
+		StmtIterator itr;
+		rdfResources = "";
+		
+//		List<Resource> resources;
+//		resources = rdfs.listInstancesOf(SempicOnto.inThePicture);
+//		rdfResources += "<h3>inThePicture</h3>";
+//		resources.forEach(i -> {
+//			rdfResources += i.getProperty(RDFS.label).getLiteral().toString()+"<br/>";
+//		});
+		
+		itr = photoRes.listProperties(SempicOnto.inThePicture);
+		rdfResources += "<h3>inThePicture</h3>";
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.depicts);
+		rdfResources += "<h3>depicts</h3>";
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.takenIn);
+		rdfResources += "<h3>takenIn</h3>";
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.takenBy);
+		rdfResources += "<h3>takenBy</h3>";
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		itr = photoRes.listProperties(SempicOnto.takenWhen);
+		rdfResources += "<h3>takenWhen</h3>";
+		while(itr.hasNext())
+		{
+			rdfResources += rdfs.getStatementHash(itr.next())+"<br/>";
+		}
+		
 //		rdfResources = "inThePicture "+photoRes.getProperty(SempicOnto.inThePicture).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //		rdfResources += "Depicts "+photoRes.getProperty(SempicOnto.depicts).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //		rdfResources += "takenBy "+photoRes.getProperty(SempicOnto.takenBy).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //		rdfResources += "takenIn "+photoRes.getProperty(SempicOnto.takenIn).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //		rdfResources += "takenWhen "+photoRes.getProperty(SempicOnto.takenWhen).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 
-		rdfResources = rdfs.getPhotoModel(current.getId()).toString();
+//		rdfResources = rdfs.getPhotoModel(current.getId()).toString();
 		
 		return "View";
 	}
@@ -336,36 +377,32 @@ public class PictureController implements Serializable {
 			
 			//Individuals inThePicture (Pierre, Medor, etc.)
 			for (String s: persons) {           
-//				System.out.println(s); 
 				photoRes.addProperty(SempicOnto.inThePicture, m.getResource(s));
 			}
 
 			//Things depicted (Person, Animals, Building)
 			for (String s: depicts) {           
-//				System.out.println(s); 
 				photoRes.addProperty(SempicOnto.depicts, m.getResource(s));
 			}
 			
 //			//takenBy : who took the picture
-//			Resource anotherPerson = m.createResource(SempicOnto.Person);
-//			anotherPerson.addLiteral(RDFS.label, takenBy);
-			photoRes.addProperty(SempicOnto.takenBy, m.getResource(takenBy));
+			for (String s: takenBy) {           
+				photoRes.addProperty(SempicOnto.takenBy, m.getResource(s));
+			}
 //			
 			//takenIn : where was the picture taken
-//			Resource place = m.createResource(SempicOnto.Place);
-//			place.addLiteral(RDFS.label, takenIn);
-			photoRes.addProperty(SempicOnto.takenIn, m.getResource(takenIn));
-////			
+			for (String s: takenIn) {           
+				photoRes.addProperty(SempicOnto.takenIn, m.getResource(s));
+			}
+
 			//takenWhen : picture date
-//			Resource timestamp = m.createResource(SempicOnto.takenWhen);
 //			timestamp.addLiteral(RDFS.label, takenWhen);
-			photoRes.addProperty(SempicOnto.takenWhen, m.getResource(takenWhen));
+			photoRes.addLiteral(SempicOnto.takenWhen, takenWhen);
 //
 			m.write(System.out, "turtle");
 			
 			rdfs.saveModel(m);
 			
-
 			JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("PictureCreated"));
 			
 			recreatePagination();

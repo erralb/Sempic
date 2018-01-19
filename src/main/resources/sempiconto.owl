@@ -786,21 +786,6 @@
     
 
 
-    <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Artemis -->
-
-    <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Artemis">
-        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Baby"/>
-        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#European"/>
-        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Individuals"/>
-        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Person"/>
-        <rdf:type rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Woman"/>
-        <hasFather rdf:resource="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Manu"/>
-        <hasName>Artemis</hasName>
-        <rdfs:label>Artemis</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Aude -->
 
     <owl:NamedIndividual rdf:about="http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Aude">
