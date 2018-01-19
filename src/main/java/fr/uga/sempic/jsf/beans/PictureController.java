@@ -34,6 +34,8 @@ import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
