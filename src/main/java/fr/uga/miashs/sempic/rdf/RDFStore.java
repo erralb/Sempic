@@ -131,12 +131,15 @@ public class RDFStore {
      * @return
      */
     public List<Resource> listSubClassesOf(Resource c) {
-        Model m = cnx.queryConstruct("CONSTRUCT { "
+        String query
+                = "CONSTRUCT { "
                 + "?s <" + RDFS.label + "> ?o "
                 + "} WHERE {"
                 + "?s <" + RDFS.subClassOf + "> <" + c.getURI() + "> ."
                 + "?s <" + RDFS.label + "> ?o ."
-                + "} ORDER BY ASC(?o)");
+                + "} ORDER BY ASC(?o)";
+		System.out.println(query);
+        Model m = cnx.queryConstruct(query);
 //		System.out.println(m);
         return m.listSubjects().toList();
     }
@@ -149,17 +152,13 @@ public class RDFStore {
      * @return
      */
     public List<Resource> listInstancesOf(Resource c) {
-//PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//Select ?s ?l
-//WHERE { ?s a <http://miashs.univ-grenoble-alpes.fr/ontologies/sempic.owl#Individuals> ;
-//rdfs:label ?l  }
         String query
                 = "CONSTRUCT { ?s <" + RDFS.label + "> ?l . }"
                 + "WHERE {"
                 + "?s a <" + c.getURI() + "> ;"
                 + "<" + RDFS.label + "> ?l "
                 + "}";
-//		System.out.println(query);
+		System.out.println(query);
         Model m = cnx.queryConstruct(query);
 //		System.out.println(m);
         return m.listSubjects().toList();
@@ -214,7 +213,7 @@ public class RDFStore {
                 + "FILTER (?p1 IN (<" + SempicOnto.depicts + ">,<" + SempicOnto.takenIn + ">,<" + SempicOnto.takenBy + ">)) "
                 + "}"
                 + "}";
-//		System.out.println("Here in readPhoto in RDFStore "+s);
+		System.out.println("Here in readPhoto in RDFStore "+s);
         Model m = cnx.queryConstruct(s);
 //		System.out.println("Here in readPhoto in RDFStore "+m);
 
