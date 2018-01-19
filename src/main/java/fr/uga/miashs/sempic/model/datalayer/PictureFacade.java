@@ -51,4 +51,11 @@ public class PictureFacade extends AbstractFacade<Picture> {
 		return q.getResultList();
 	}
 	
+	public List<Picture> findAllById(String ids) {
+//		Query q = em.createNamedQuery("Picture.findAllById");
+//		q.setParameter("ids", ids );
+		Query q = em.createQuery("SELECT p FROM Picture p WHERE p.id IN ( "+ids+" )");
+		return q.getResultList();
+	}
+	
 }

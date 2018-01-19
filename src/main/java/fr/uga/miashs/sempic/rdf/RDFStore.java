@@ -133,7 +133,7 @@ public class RDFStore {
                 + "?s <" + RDFS.subClassOf + "> <" + c.getURI() + "> ."
                 + "?s <" + RDFS.label + "> ?o ."
                 + "} ORDER BY ASC(?o)");
-		System.out.println(m);
+//		System.out.println(m);
         return m.listSubjects().toList();
     }
 
@@ -155,9 +155,9 @@ public class RDFStore {
                 + "?s a <" + c.getURI() + "> ;"
                 + "<" + RDFS.label + "> ?l "
                 + "}";
-		System.out.println(query);
+//		System.out.println(query);
         Model m = cnx.queryConstruct(query);
-		System.out.println(m);
+//		System.out.println(m);
         return m.listSubjects().toList();
     }
 
@@ -258,7 +258,7 @@ public class RDFStore {
 //		Resource photoRes = m.createResource(Namespaces.getPhotoUri(1551), SempicOnto.Photo);
 		Resource photoRes = s.readPhoto(1751);
 //		Model m = s.getPhotoModel(1751);
-//		System.out.println(m);
+		System.out.println(photoRes.getPropertyResourceValue(SempicOnto.inThePicture));
 		StmtIterator itr;
 		itr = photoRes.listProperties(SempicOnto.inThePicture);
 		while (itr.hasNext()) {

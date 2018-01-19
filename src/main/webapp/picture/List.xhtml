@@ -10,7 +10,23 @@
             <h:outputText value="#{bundle.ListPictureTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
+			
+			<h1>Search</h1>
+            <h:form>
+                    <h:outputLabel value="Who is in the picture?" for="persons" />
+					<h:selectManyMenu id="persons" value="#{pictureController.persons}" class="multi">
+						<f:selectItems value="#{pictureController.rdfPeopleSelect()}"  />
+					</h:selectManyMenu>
+				
+					<br/>
+				<h:commandLink action="#{pictureController.search}" value="Search"/>
+			</h:form>
+			
+			<h1>List</h1>
 			<h:form styleClass="jsfcrud_list_form">
+				
+				<hr/>
+				
 				<h:panelGroup id="messagePanel" layout="block">
 					<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
 				</h:panelGroup>

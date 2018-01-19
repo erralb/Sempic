@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -76,6 +79,9 @@ public class PictureController implements Serializable {
 
 	private ArrayList<SelectItem> rdfSelect;
 	
+	
+	private String ids = "";
+	
     @Inject
     private AuthManager auth;
 	
@@ -85,6 +91,15 @@ public class PictureController implements Serializable {
 	private int selectedItemIndex;
 	
 	public PictureController() {
+	}
+	
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 	
 	public String[] getPlaces() {
@@ -203,14 +218,6 @@ public class PictureController implements Serializable {
 		
 		StmtIterator itr;
 		rdfResources = "";
-		
-//		List<Resource> resources;
-//		resources = rdfs.listInstancesOf(SempicOnto.inThePicture);
-//		rdfResources += "<h3>inThePicture</h3>";
-//		resources.forEach(i -> {
-//			rdfResources += i.getProperty(RDFS.label).getLiteral().toString()+"<br/>";
-//		});
-		
 		itr = photoRes.listProperties(SempicOnto.inThePicture);
 		rdfResources += "<h3>inThePicture</h3>";
 		while(itr.hasNext())
@@ -247,7 +254,6 @@ public class PictureController implements Serializable {
 //		rdfResources += "takenBy "+photoRes.getProperty(SempicOnto.takenBy).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //		rdfResources += "takenIn "+photoRes.getProperty(SempicOnto.takenIn).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
 //		rdfResources += "takenWhen "+photoRes.getProperty(SempicOnto.takenWhen).getProperty(RDFS.label).getLiteral().toString()+"<br/>";
-
 //		rdfResources = rdfs.getPhotoModel(current.getId()).toString();
 		
 		return "View";
@@ -412,7 +418,40 @@ public class PictureController implements Serializable {
 			return prepareCreate();
 			
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+			JsfUtil.addErrorMessage(e, e.getMessage());
+			return null;
+		}
+	}
+	
+	public String search()
+	{
+		try {
+			
+			String query = "SELECT ?p WHERE {";
+			for (String s: persons) {           
+				System.out.println("Here "+s);
+				query += "?p <"+SempicOnto.inThePicture+"> <"+s+">";
+			}
+			query += "}";
+			
+//			System.out.println("Here query : "+query);
+			
+			ids = "";
+			rdfs.getCnx().querySelect( query, (qs)->{
+				Resource subject = qs.getResource("p") ;
+				String uri = subject.toString();
+				ids += uri.substring(uri.lastIndexOf("/") + 1)+",";
+			 }) ;
+			
+			ids = ids.substring(0, ids.length() - 1);
+			System.out.println(ids);
+			items = new ListDataModel(getFacade().findAllById(ids));
+
+//			return "Search";
+			return "List";
+			
+		} catch (Exception e) {
+			JsfUtil.addErrorMessage(e, e.getMessage());
 			return null;
 		}
 	}
@@ -530,7 +569,7 @@ public class PictureController implements Serializable {
 	public DataModel getItems() {
 		if (items == null) {
 			items = getPagination().createPageDataModel();
-			System.out.print("Items null");
+//			System.out.print("Items null");
 		}
 		return items;
 	}
