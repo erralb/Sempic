@@ -13,15 +13,46 @@
 			
 			<h1>Search</h1>
             <h:form>
+				<div class="quart">
+					<br/>
                     <h:outputLabel value="Who is in the picture?" for="persons" />
 					<h:selectManyMenu id="persons" value="#{pictureController.persons}" class="multi">
 						<f:selectItems value="#{pictureController.rdfPeopleSelect()}"  />
 					</h:selectManyMenu>
-				
+				</div>
+				<div class="quart">
 					<br/>
+                    <h:outputLabel value="What is in the picture?" for="depicts" />
+					<h:selectManyMenu id="depicts" value="#{pictureController.depicts}" class="multi">
+						<f:selectItems value="#{pictureController.rdfContextSelect()}"  />
+					</h:selectManyMenu>
+				</div>
+				<div class="quart">
+					<br/>
+                    <h:outputLabel value="Where was the picture taken?" for="takenIn" />
+					<h:selectManyMenu id="takenIn" value="#{pictureController.takenIn}" class="multi">
+						<f:selectItems value="#{pictureController.rdfPlaceSelect()}" />
+					</h:selectManyMenu>
+				</div>
+				<div class="quart">
+					<br/>
+                    <h:outputLabel value="Who took the picture?" for="takenBy" />
+                    <h:selectManyMenu id="takenBy" value="#{pictureController.takenBy}"  class="multi">
+						<f:selectItems value="#{pictureController.rdfPeopleSelect()}"  />
+					</h:selectManyMenu>
+				</div>
+				<div class="quart">
+					<br/>
+                    <h:outputLabel value="When was the picture taken?" for="takenWhen" />
+					<h:inputText id="takenWhen" value="#{pictureController.takenWhen}" class="datepicker" />
+				</div>
+				
+				<div class="clear"></div>
+				<br/>
 				<h:commandLink action="#{pictureController.search}" value="Search"/>
 			</h:form>
 			
+			<div class="clear"></div>
 			<h1>List</h1>
 			<h:form styleClass="jsfcrud_list_form">
 				

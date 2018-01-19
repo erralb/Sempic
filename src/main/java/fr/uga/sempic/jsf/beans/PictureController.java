@@ -426,26 +426,19 @@ public class PictureController implements Serializable {
 	public String search()
 	{
 		try {
-			
-			String query = "SELECT ?p WHERE {";
-			for (String s: persons) {           
-				System.out.println("Here "+s);
-				query += "?p <"+SempicOnto.inThePicture+"> <"+s+">";
-			}
-			query += "}";
-			
-//			System.out.println("Here query : "+query);
-			
 			ids = "";
-			rdfs.getCnx().querySelect( query, (qs)->{
-				Resource subject = qs.getResource("p") ;
-				String uri = subject.toString();
-				ids += uri.substring(uri.lastIndexOf("/") + 1)+",";
-			 }) ;
+			setIDs(SempicOnto.inThePicture,persons);
+			setIDs(SempicOnto.inThePicture,depicts);
+//			setIDs(SempicOnto.inThePicture,takenIn);
+//			setIDs(SempicOnto.inThePicture,takenBy);
 			
-			ids = ids.substring(0, ids.length() - 1);
 			System.out.println(ids);
-			items = new ListDataModel(getFacade().findAllById(ids));
+			if(!ids.isEmpty())
+			{
+				ids = ids.substring(0, ids.length() - 1); //remove last ,
+				items = new ListDataModel(getFacade().findAllById(ids));
+			}
+			else items = null;
 
 //			return "Search";
 			return "List";
@@ -453,6 +446,31 @@ public class PictureController implements Serializable {
 		} catch (Exception e) {
 			JsfUtil.addErrorMessage(e, e.getMessage());
 			return null;
+		}
+	}
+	
+	public void setIDs(Resource onto, String[] values)
+	{
+		if(values.length > 0)
+		{
+			String query = "SELECT ?p WHERE {";
+			query += "?p <"+onto+"> ?o. FILTER (";
+			boolean first = true;
+			for (String s: values) {           
+	//				query += "?p <"+SempicOnto.inThePicture+"> <"+s+">.";
+				if(!first) query += "|| ";
+				first = false;
+				query += " ?o = <"+s+"> ";
+			}
+			query += ")}";
+
+	//		System.out.println("Here query : "+query);
+
+			rdfs.getCnx().querySelect( query, (qs)->{
+				Resource subject = qs.getResource("p") ;
+				String uri = subject.toString();
+				ids += uri.substring(uri.lastIndexOf("/") + 1)+",";
+			 }) ;
 		}
 	}
 
