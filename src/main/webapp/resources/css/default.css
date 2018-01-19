@@ -38,3 +38,12 @@ h3 {
 img {
 	max-width: 200px;
 }
+
+.quart {
+	width: 400px;
+	float: left;
+}
+
+.clear {
+	clear: both;
+}
