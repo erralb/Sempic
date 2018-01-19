@@ -56,6 +56,8 @@
 			<h1>List</h1>
 			<h:form styleClass="jsfcrud_list_form">
 				
+				<h:commandLink action="#{pictureController.prepareCreate}" value="#{bundle.ListPictureCreateLink}"/>
+				
 				<hr/>
 				
 				<h:panelGroup id="messagePanel" layout="block">
@@ -123,10 +125,7 @@
 						</h:column>
 					</h:dataTable>
 				</h:panelGroup>
-				<br />
-				<h:commandLink action="#{pictureController.prepareCreate}" value="#{bundle.ListPictureCreateLink}"/>
-				<br />
-				<br />
+				
 				<h:link outcome="/index" value="#{bundle.ListPictureIndexLink}"/>
 			</h:form>
         </ui:define>

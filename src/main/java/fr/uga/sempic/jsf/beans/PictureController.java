@@ -34,8 +34,6 @@ import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
@@ -148,18 +146,7 @@ public class PictureController implements Serializable {
 	}
 	
 	public String[] getDepicts() {
-//		if(depicts == null)
-//		{
-//			current = getSelected();
-//			Resource photo = rdfs.readPhoto(current.getId());
-//			photo.getModel().write(System.out,"turtle");
-////			 print the graph on the standard output
-////			pRes.getModel().write(System.out);
-//			System.out.println(photo.toString());
-//			
-//		}
 		return depicts;
-//		return new String[1];
 	}
 
 	public void setDepicts(String[] depicts) {
@@ -418,37 +405,46 @@ public class PictureController implements Serializable {
 			return prepareCreate();
 			
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, e.getMessage());
+			JsfUtil.addErrorMessage(e, "Error. Message : "+ e.getMessage());
 			return null;
 		}
 	}
 	
+	/**
+	 * Search the RDF and display result the List.xhtml
+	 */
 	public String search()
 	{
 		try {
+			//Search picture IDs linked with selected resource
 			ids = "";
 			setIDs(SempicOnto.inThePicture,persons);
 			setIDs(SempicOnto.inThePicture,depicts);
-//			setIDs(SempicOnto.inThePicture,takenIn);
-//			setIDs(SempicOnto.inThePicture,takenBy);
+			setIDs(SempicOnto.inThePicture,takenIn);
+			setIDs(SempicOnto.inThePicture,takenBy);
 			
+			//if some IDs were found, launch an SQL query and assign them to items
 			System.out.println(ids);
 			if(!ids.isEmpty())
 			{
 				ids = ids.substring(0, ids.length() - 1); //remove last ,
-				items = new ListDataModel(getFacade().findAllById(ids));
+				items = new ListDataModel(getFacade().findAllById(ids));//get items
 			}
 			else items = null;
 
-//			return "Search";
 			return "List";
 			
 		} catch (Exception e) {
-			JsfUtil.addErrorMessage(e, e.getMessage());
+			JsfUtil.addErrorMessage(e, "Error. Message : "+ e.getMessage());
 			return null;
 		}
 	}
 	
+	/**
+	 * Set the Picture IDs we'll use for the search
+	 * @param onto The current resource we want search
+	 * @param values The resource values
+	 */
 	public void setIDs(Resource onto, String[] values)
 	{
 		if(values.length > 0)
